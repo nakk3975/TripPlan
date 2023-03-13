@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ahn.tripplan.schedule.dao.ScheduleDAO">
+	<insert id="insertSchedule" parameterType="map">
+		INSERT INTO
+			`schedule`
+		(
+			`userId`
+			, `title`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{userId}
+			, #{title}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<insert id="insertScheduleData" parameterType="map">
+		INSERT INTO
+			`schedule_data`
+		(
+			`scheduleId`
+			, `content`
+			, `startTime`
+			, `endTime`
+			, `move`
+			, `cost`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{scheduleId}
+			, #{content}
+			, #{startTime}
+			, #{endTime}
+			, #{move}
+			, #{cost}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<select id="selectScheduleByUserId" parameterType="int" 
+	resultType="int">
+		SELECT
+			`id`
+		FROM
+			`schedule`
+		WHERE `userId` = #{userId}
+		ORDER BY `id` DESC
+		LIMIT 1;
+	</select>
+
+</mapper>
