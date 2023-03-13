@@ -36,4 +36,19 @@ public class UserBO {
 		
 		return userDAO.selectLogin(loginId, encryptPassword);
 	}
+	
+	public User passwordSearch(String loginId, String email) {
+		return userDAO.selectPasswordSearch(loginId, email);
+	}
+	
+	public int updatePassword(int id, String password) {
+		
+		String encryptPassword = EncryptUtils.md5(password);
+		
+		return userDAO.updatePassword(id, encryptPassword);
+	}
+	
+	public User selectId(String name, String email, String phoneNumber) {
+		return userDAO.selectIdByUser(name, email, phoneNumber);
+	}
 }

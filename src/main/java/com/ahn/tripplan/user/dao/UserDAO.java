@@ -22,4 +22,17 @@ public interface UserDAO {
 			@Param("loginId") String loginId
 			, @Param("password") String password);
 	
+	public User selectPasswordSearch(
+			@Param("loginId") String loginId
+			, @Param("email") String email);
+	
+	public int updatePassword(
+			@Param("id") int id
+			, @Param("password") String password);
+	
+	public User selectIdByUser(
+			@Param("name") String name
+			, @Param("email") String email
+			, @Param("phoneNumber") String phoneNumber);
+	
 }

@@ -81,4 +81,68 @@ public class UserRestController {
 		return result;
 	}
 	
+	@PostMapping("/passwordsearch")
+	public Map<String, String> passwordsearch(
+			@RequestParam("loginId") String loginId
+			, @RequestParam("email") String email
+			, HttpServletRequest request) {
+		
+		User user = userBO.passwordSearch(loginId, email);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(user != null) {
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("userId", user.getId());
+			
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	@PostMapping("/passwordchange")
+	public Map<String, String> passwordChange(
+			@RequestParam("id") int id
+			, @RequestParam("password") String password){
+		
+		int count = userBO.updatePassword(id, password);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	@GetMapping("/idcheck")
+	public Map<String, String> idCheck(
+			@RequestParam("name") String name
+			, @RequestParam("email") String email
+			, @RequestParam("phoneNumber") String phoneNumber
+			, HttpServletRequest request) {
+		
+		User user = userBO.selectId(name, email, phoneNumber);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(user != null) {
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userId", user.getLoginId());
+			
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+		
+	}
+	
 }
