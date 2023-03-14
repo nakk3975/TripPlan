@@ -51,4 +51,8 @@ public class UserBO {
 	public User selectId(String name, String email, String phoneNumber) {
 		return userDAO.selectIdByUser(name, email, phoneNumber);
 	}
+	
+	public User getUserById(int id) {
+		return userDAO.selectUserById(id);
+	}
 }

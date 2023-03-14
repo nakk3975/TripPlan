@@ -112,4 +112,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND `email` = #{email}
 			AND `phoneNumber` = #{phoneNumber}
 	</select>
+	
+	<select id="selectUserById" parameterType="int"
+	resultType="com.ahn.tripplan.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</select>
+	
 </mapper>

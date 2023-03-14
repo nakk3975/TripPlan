@@ -20,5 +20,5 @@ header > .head-content {
  }
  
  .modal { 
- 	overflow:auto; 
+ 	overflow-y:auto; 
  }

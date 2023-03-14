@@ -36,7 +36,7 @@
 	</div>
 	
 	<!-- 일정 추가 클릭시 일정 입력 모달 -->
-	<div id="scheduleModal" class="modal fade" role="dialog">
+	<div id="scheduleModal" class="modal fade">
   		<div class="modal-dialog modal-lg" role="document">
     		<div class="modal-content">
       			<div class="modal-header">
@@ -61,7 +61,7 @@
 	
 	<!-- 내용 저장 모달 -->
 	<!-- 일정 추가 클릭시 일정 입력 모달 -->
-	<div id="scheduleDataModal" class="modal fade" role="dialog">
+	<div id="scheduleDataModal" class="modal fade">
   		<div class="modal-dialog modal-lg" role="document">
     		<div class="modal-content">
       			<div class="modal-header">
@@ -103,16 +103,11 @@
 	</div>
 
 <script src="/static/js/form.js"></script>
-<script type="text/javascript">
-	$(document).on('hidden.bs.modal', function (event) {
-		if ($('.modal:visible').length) {
-			$('body').addClass('modal-open');
-		}
-	});
-</script>
+
 <script>
 
 	$(document).ready(function(){
+		
 		// 내용 저장
 		$("#saveScheduleDataBtn").on("click", function() {
 			let startTime = $("#scheduleStartDatepicker").val();
@@ -163,22 +158,20 @@
 		// 타이틀 저장
 		$("#saveScheduleBtn").on("click", function() {
 			let title = $("#scheduleTitle").val();
-			let target = $(this).data();
-			
 			
 			if(!valueCheck($("#scheduleTitle"), "제목")){
 				return;
 			}
-		
+			
+			
 			$.ajax({
 				type:"post"
 				, url:"/schedule/inputTitle"
 				, data:{"title":title}
 				, success:function(data) {
-					if(data.result == "success") {
-						
-					} else {
+					if(data.result != "success") {
 						alert("일정 추가 실패");
+						location.reload();
 					}
 				}
 				, error:function() {
@@ -212,9 +205,34 @@
 	        	initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
 	        	editable: true ,
 	        	locale: 'ko', // 한국어 설정
+	        	events: function(info, successCallback, failureCallback) {
+	        		$.ajax({
+	        			type:"post"
+	        			, url:"/schedule/list"
+	        			, success:function(data) {
+	        				var events = [];
+	        				for(let i = 0; i < data.length; i++) {
+	        					events.push({
+	        						title : data[i].title
+	        						, start : data[i].startTime
+	        						, end : data[i].endTime
+	        					});
+	        				}
+	        				successCallback(events);
+	        			}
+	        			, error:function() {
+	        				alert("불러오기 에러");
+	        			}
+	        		});
+	        	}
 	      	});
       		// 캘린더 랜더링
       		calendar.render();
+      		
+      		// 일정 클릭시 수정
+      		calendar.on("eventClick", function() {
+      			
+      		});
     	});
 	});
 </script>

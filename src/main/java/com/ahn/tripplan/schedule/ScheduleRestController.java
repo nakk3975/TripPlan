@@ -3,6 +3,7 @@ package com.ahn.tripplan.schedule;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ahn.tripplan.schedule.bo.ScheduleBO;
+import com.ahn.tripplan.schedule.model.ScheduleDetail;
 
 @RestController
 @RequestMapping("/schedule")
@@ -68,6 +70,15 @@ public class ScheduleRestController {
 		}
 		
 		return result;
+	}
+	
+	@PostMapping("/list")
+	public List<ScheduleDetail> ScheduleList(HttpSession session) {
+		int userId = (Integer)session.getAttribute("userId");
+		
+		List<ScheduleDetail> detail = scheduleBO.selectSchedule(userId);
+		
+		return detail;
 	}
 	
 }

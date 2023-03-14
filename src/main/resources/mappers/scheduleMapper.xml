@@ -58,5 +58,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY `id` DESC
 		LIMIT 1;
 	</select>
+	
+	<select id="selectSchedule" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.model.Schedule">
+		SELECT
+			`id`
+			, `userId`
+			, `title`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule`
+		WHERE
+			`userId` = #{userId}
+	</select>
+	
+	<select id="selectScheduleData" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.model.ScheduleData">
+	SELECT
+			`id`
+			, `scheduleId`
+			, `content`
+			, `startTime`
+			, `endTime`
+			, `move`
+			, `cost`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule_data`
+		WHERE
+			`scheduleId` = #{scheduleId}
+	</select>
 
 </mapper>

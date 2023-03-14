@@ -35,4 +35,5 @@ public interface UserDAO {
 			, @Param("email") String email
 			, @Param("phoneNumber") String phoneNumber);
 	
+	public User selectUserById(@Param("id") int id);
 }
