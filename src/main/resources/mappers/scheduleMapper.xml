@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectScheduleData" parameterType="int"
 	resultType="com.ahn.tripplan.schedule.model.ScheduleData">
-	SELECT
+		SELECT
 			`id`
 			, `scheduleId`
 			, `content`
@@ -90,5 +90,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`scheduleId` = #{scheduleId}
 	</select>
+	
+	<select id="selectScheduleById" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.model.Schedule">
+		SELECT
+			`id`
+			, `userId`
+			, `title`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule`
+		WHERE
+			`id` = #{scheduleId}
+	</select>
+	
+	<delete id="deleteSchedule" parameterType="map">
+		DELETE FROM
+			`schedule`
+		WHERE
+			`id` = #{scheduleId}
+			AND `userId` = #{userId}
+	</delete>
+	
+	<delete id="deleteScheduleData" parameterType="int">
+		DELETE FROM
+			`schedule_data`
+		WHERE
+			`scheduleId` = #{scheduleId}
+	</delete>
+	
+	<update id="updateSchedule" parameterType="map">
+		UPDATE
+			`schedule`
+		SET
+			`title` = #{title}
+			, `updatedAt` = now()
+		WHERE
+			`id` = #{scheduleId} 
+	</update>
+	
+	<update id="updateScheduleData" parameterType="map">
+		UPDATE
+			`schedule_data`
+		SET
+			`content` = #{content}
+			, `startTime` = #{startTime}
+			, `endTime` = #{endTime}
+			, `move` = #{move}
+			, `cost` = #{cost}
+			, `updatedAt` = now()
+		WHERE
+			`id` = #{scheduleId}
+	</update>
 
 </mapper>

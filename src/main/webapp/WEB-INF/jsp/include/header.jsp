@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<header>
 			<div class="d-flex head-content justify-content-around">
-				<h1 class="col-2">Trip Plan</h1>
+				<a href="/destination/main/view" id="logo" class="col-2">Trip Plan</a>
 				<nav class="main-menu col-8 pt-3">
 					<ul class="nav justify-content-around">
 						<li class="nav-item"><a href="/destination/main/view" class="nav-link font-weight-bold">메인화면</a></li>

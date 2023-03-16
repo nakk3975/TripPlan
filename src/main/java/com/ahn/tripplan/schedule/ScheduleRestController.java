@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,10 +56,10 @@ public class ScheduleRestController {
 		int userId = (int)session.getAttribute("userId");
 		int scheduleId = scheduleBO.selectByUserScheduleId(userId);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String startDateTime = dateFormat.format(startTime);
 		String endDateTime = dateFormat.format(endTime);
-		System.out.println(scheduleId);
+		
 		int count = scheduleBO.insertScheduleData(scheduleId, content, startDateTime, endDateTime, move, cost);
 		
 		Map<String, String> result = new HashMap<>();
@@ -74,11 +75,70 @@ public class ScheduleRestController {
 	
 	@PostMapping("/list")
 	public List<ScheduleDetail> ScheduleList(HttpSession session) {
+		
 		int userId = (Integer)session.getAttribute("userId");
 		
 		List<ScheduleDetail> detail = scheduleBO.selectSchedule(userId);
 		
 		return detail;
+	}
+	
+	@GetMapping("/delete")
+	public Map<String, String> ScheduleDelete(
+			@RequestParam("scheduleId") int scheduleId
+			, HttpSession session) {
+		int userId = (int) session.getAttribute("userId");
+		
+		int count = scheduleBO.ScheduleDelete(scheduleId, userId);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
+	@PostMapping("/updatetitle")
+	public Map<String, String> scheduleUpdateTitle(
+		@RequestParam("id") int id
+		, @RequestParam("title") String title){
+		
+		int count = scheduleBO.updateScheduel(id, title);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	@PostMapping("/update")
+	public Map<String, String> scheduleUpdate(
+			@RequestParam("id") int id
+			, @RequestParam("content") String content
+			, @RequestParam("startTime") String startTime
+			, @RequestParam("endTime") String endTime
+			, @RequestParam("move") String move
+			, @RequestParam("cost") int cost) {
+		
+		int count = scheduleBO.updateScheduleData(id, content, startTime, endTime, move, cost);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
 	}
 	
 }
