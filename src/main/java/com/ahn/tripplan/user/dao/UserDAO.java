@@ -1,5 +1,7 @@
 package com.ahn.tripplan.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,4 +38,6 @@ public interface UserDAO {
 			, @Param("phoneNumber") String phoneNumber);
 	
 	public User selectUserById(@Param("id") int id);
+	
+	public List<User> selectUser(@Param("userId") int userId);
 }

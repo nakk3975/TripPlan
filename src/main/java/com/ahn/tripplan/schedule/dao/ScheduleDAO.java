@@ -49,4 +49,5 @@ public interface ScheduleDAO {
 			, @Param("move") String move
 			, @Param("cost") int cost);
 	
+	
 }

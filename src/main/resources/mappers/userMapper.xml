@@ -120,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, `loginId`
 			, `password`
 			, `name`
+			, `nickname`
 			, `email`
 			, `createdAt`
 			, `updatedAt`
@@ -127,6 +128,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			`user`
 		WHERE
 			`id` = #{id}
+	</select>
+	
+	<select id="selectUser" resultType="com.ahn.tripplan.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `nickname`
+			, `email`
+			, `phoneNumber`
+			, `level`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`level` = 1
+			AND `id` != #{userId}
 	</select>
 	
 </mapper>

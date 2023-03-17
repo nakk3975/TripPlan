@@ -18,10 +18,98 @@
 <body>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
-		<section class="col-12">
-
+		<section class="text-center">
+			<h2>초대 받은 일정</h2>
+			<table class="table text-center">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>일정 이름</th>
+						<th>초대한 사람</th>
+						<th></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<c:forEach var="invite" items="${invites}" varStatus="status">
+						<tr>
+							<td>${status.count}</td>
+							<td>${invite.title}</td>
+							<td>${invite.nickname}</td>
+							<td>
+								<button type="button" class="acceptBtn btn btn-primary" data-id="${invite.scheduleId}">수락</button>
+								<button type="button" class="refuseBtn btn btn-danger" data-id="${invite.scheduleId}">거절</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			
+			// 수락 버튼 클릭 시
+			$(".acceptBtn").on("click", function() {
+				let scheduleId = $(this).data("id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/schedule/invite/accept"
+					, data:{"scheduleId":scheduleId}
+					, success:function(data) {
+						if(data.result == "success") {
+							alert("수락 성공");
+							$.ajax({
+								type:"get"
+								, url:"/schedule/invite/delete"
+								, data:{"scheduleId":scheduleId}
+								, success:function(data) {
+									if(data.result == "success") {
+										location.reload();
+									} else {
+										alert("일정 거절에 실패하였습니다.");
+									}
+								}
+								, error:function() {
+									alert("일정 거절 에러");
+								}
+							});
+							location.reload();
+						} else {
+							alert("수락에 실패하였습니다.");
+						}
+					}
+					, error:function() {
+						alert("수락 에러");
+					}
+				});
+				
+			});
+			
+			// 거절 버튼 클릭 시
+			$(".refuseBtn").on("click", function() {
+				let scheduleId = $(this).data("id");
+				
+				$.ajax({
+					type:"get"
+					, url:"/schedule/invite/delete"
+					, data:{"scheduleId":scheduleId}
+					, success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("일정 거절에 실패하였습니다.");
+						}
+					}
+					, error:function() {
+						alert("일정 거절 에러");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ahn.tripplan.schedule.dao.ScheduleDAO;
+import com.ahn.tripplan.schedule.invite.bo.InviteBO;
+import com.ahn.tripplan.schedule.invite.model.InviteMember;
 import com.ahn.tripplan.schedule.model.Schedule;
 import com.ahn.tripplan.schedule.model.ScheduleData;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
+import com.ahn.tripplan.schedule.model.ScheduleInviteDetail;
 import com.ahn.tripplan.user.bo.UserBO;
 import com.ahn.tripplan.user.model.User;
 
@@ -20,13 +23,15 @@ public class ScheduleBO {
 	private ScheduleDAO scheduleDAO;
 	@Autowired
 	private UserBO userBO;
+	@Autowired
+	private InviteBO inviteBO;
 	
-	public int insertScheduel(
-			int userId
-			, String title) {
+	// 일정 제목 및 정보 저장
+	public int insertScheduel(int userId, String title) {
 		return scheduleDAO.insertSchedule(userId, title);
 	}
 	
+	// 일정 내용 저장
 	public int insertScheduleData(
 			int scheduleId
 			, String content
@@ -38,11 +43,13 @@ public class ScheduleBO {
 		return scheduleDAO.insertScheduleData(scheduleId, content, startTime, endTime, move, cost);
 	}
 	
+	// 현재 로그인 한 사용자의 일정 정보
 	public int selectByUserScheduleId(int userId) {
 		int scheduleId = scheduleDAO.selectScheduleByUserId(userId);
 		return scheduleId;	
 	}
 	
+	// 위에서 검색한 전체 일정
 	public List<ScheduleDetail> selectSchedule(int userId) {
 		List<Schedule> scheduleList = scheduleDAO.selectSchedule(userId);
 		
@@ -71,6 +78,7 @@ public class ScheduleBO {
 		
 	}
 	
+	// 일정 상세 보기
 	public ScheduleDetail ScheduleDetail(int scheduleId) {
 		Schedule schedule = scheduleDAO.selectScheduleById(scheduleId);
 		ScheduleData scheduleData = scheduleDAO.selectScheduleData(scheduleId);
@@ -91,6 +99,7 @@ public class ScheduleBO {
 		return detail;
 	}
 	
+	// 일정 삭제
 	public int ScheduleDelete(int scheduleId, int userId) {
 		int result = scheduleDAO.deleteSchedule(scheduleId, userId);
 		
@@ -101,12 +110,14 @@ public class ScheduleBO {
 		}
 	}
 	
+	// 일정 제목 수정
 	public int updateScheduel(
 			int scheduleId
 			, String title) {
 		return scheduleDAO.updateSchedule(scheduleId, title);
 	}
 	
+	// 일정 내용 수정
 	public int updateScheduleData(
 			int id
 			, String content
@@ -117,6 +128,32 @@ public class ScheduleBO {
 		
 		return scheduleDAO.updateScheduleData(id, content, startTime, endTime, move, cost);
 	}
+	
+	// 초대 받은 일정 상세
+	public List<ScheduleInviteDetail> inviteDetail(int userId) {
+		List<InviteMember> inviteInfo = inviteBO.selectInviteScheduleList(userId);
+		
+		List<ScheduleInviteDetail> detailList = new ArrayList<>();
+		
+		for(InviteMember invite:inviteInfo) {
+			ScheduleInviteDetail detail = new ScheduleInviteDetail();
+			Schedule schedule = scheduleDAO.selectScheduleById(invite.getScheduleId());
+			User user = userBO.getUserById(schedule.getUserId());
+			
+			detail.setId(invite.getId());
+			detail.setScheduleId(invite.getScheduleId());
+			detail.setUserId(invite.getUserId());
+			// 초대 한 사람의 닉네임
+			detail.setNickname(user.getNickname());
+			// 초대 한 일정의 제목
+			detail.setTitle(schedule.getTitle());
+			
+			detailList.add(detail);
+		}
+		
+		return detailList;
+	}
+	
 	
 }
 

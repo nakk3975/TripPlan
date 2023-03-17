@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ahn.tripplan.schedule.invite.dao.InviteDAO">
+	<insert id="insertInviteSchedule" parameterType="map">
+		INSERT INTO
+			`invite_member`
+		(
+			`scheduleId`
+			, `userId`
+			, `createdAt`
+		)
+		VALUE
+		(
+			#{scheduleId}
+			, #{userId}
+			, now()
+		)
+	</insert>
+	
+	<select id="selectInviteList" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.invite.model.InviteMember">
+		SELECT
+			`id`
+			, `scheduleId`
+			, `userId`
+			, `createdAt`
+		FROM
+			`invite_member`
+		WHERE
+			`userId` = #{userId}
+	</select>
+	
+	<delete id="deleteInviteRefuse" parameterType="map">
+		DELETE FROM
+			`invite_member`
+		WHERE
+			`scheduleId` = #{scheduleId}
+			AND `userId` = #{userId}
+	</delete>
+	
+	<insert id="insertScheduleMember" parameterType="map">
+		INSERT INTO
+			`schedule_member`
+		(
+			`scheduleId`
+			, `userId`
+			, `role`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{scheduleId}
+			, ${userId}
+			, 0
+			, now()
+			, now()
+		)
+	</insert>
+</mapper>

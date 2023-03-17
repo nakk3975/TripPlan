@@ -30,6 +30,9 @@
   			<div class="pt-3">
   				<!-- full calendar에서 스케줄 추가 버튼 -->
 				<button id="addScheduleButton" class="btn btn-primary btn-block" data-toggle="modal" data-target="#scheduleModal">새로운 일정 추가</button>
+				<div class="text-center pt-3">
+					<a href="/schedule/invite/view">초대 받은 일정</a>
+				</div>
   			</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>

@@ -51,7 +51,7 @@
 			<div class="d-flex justify-content-between">
 				<div>
 					<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
-					<button type="button" id="inviteBtn" class="btn btn-success" data-id="${schedule.id}">초대</button>
+					<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
 				</div>
 				<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
 			</div>
@@ -104,10 +104,82 @@
     		</div>
   		</div>
 	</div>
+	
+	<!-- 초대 버튼 클릭시 유저 검색 모달 -->
+	<div id="inviteModal" class="modal fade">
+  		<div class="modal-dialog modal-lg" role="document">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<h5 class="modal-title">멤버 검색</h5>
+        			<button type="button" class="close" data-dismiss="modal">&times;</button>
+      			</div>
+      			<div class="modal-body">
+        			<form id="memberSearchForm text-center">
+          				<div class="form-group">
+            				<label id="memberLabel">멤버 아이디</label>
+            				<div class="input-group mb-3">
+  								<input type="text" class="form-control" id="memberSeacrch">
+  								<div class="input-group-append">
+    								<button type="button" class="input-group-text btn" id="memberSearchBtn">검색</button>
+  								</div>
+							</div>
+          				</div>
+          				<div class="form-group">
+            				<table class="table text-center">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>닉네임</th>
+										<th></th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									<c:forEach var="user" items="${users}" varStatus="status">
+										<tr>
+											<td>${status.index + 1}</td>
+											<td>${user.nickname}</td>
+											<td><button type="button" class="memberInviteBtn btn btn-primary" data-member-id="${user.id}" data-schedule-id="${schedule.id}">초대</button></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+          				</div>
+       				</form>
+   				</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+
 
 	<script src="/static/js/form.js"></script>
 	<script>
 		$(document).ready(function() {
+			
+			// 초대 버튼 클릭시
+			$(".memberInviteBtn").on("click", function() {
+				let userId = $(this).data("member-id");
+				let scheduleId = $(this).data("schedule-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/schedule/invite"
+					, data:{"scheduleId":scheduleId, "userId":userId}
+					, success:function(data) {
+						if(data.result == "success") {
+							alert("초대 성공");
+						} else {
+							alert("초대에 실패하였습니다.");
+						}
+					}
+					, error:function() {
+						alert("초대 에러");
+					}
+				});
+			});
 			
 			// 일정 저장
 			$("#updateScheduleBtn").on("click", function() {

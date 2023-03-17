@@ -1,5 +1,7 @@
 package com.ahn.tripplan.user.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +56,9 @@ public class UserBO {
 	
 	public User getUserById(int id) {
 		return userDAO.selectUserById(id);
+	}
+	
+	public List<User> selectUserList(int userId) {
+		return userDAO.selectUser(userId);
 	}
 }
