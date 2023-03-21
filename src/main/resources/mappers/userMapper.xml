@@ -149,4 +149,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND `id` != #{userId}
 	</select>
 	
+	<select id="selectInviteMember" parameterType="String"
+	resultType="com.ahn.tripplan.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `nickname`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`nickname` = #{nickname}
+	</select>
 </mapper>

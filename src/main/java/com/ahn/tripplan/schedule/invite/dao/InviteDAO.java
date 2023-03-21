@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ahn.tripplan.schedule.invite.model.InviteMember;
+import com.ahn.tripplan.schedule.invite.model.ScheduleMember;
 
 @Repository
 public interface InviteDAO {
@@ -23,4 +24,12 @@ public interface InviteDAO {
 	public int insertScheduleMember(
 			@Param("scheduleId") int scheduleId
 			, @Param("userId") int userId);
+	
+	public List<ScheduleMember> selectMember(@Param("scheduleId") int scheduleId);
+	
+	public int updateAuthorityUp(@Param("role") int role);
+	
+	public int updateAuthorityDown(@Param("role") int role);
+	
+	public ScheduleMember selectSchedule(@Param("scheduleId") int scheduleId);
 }

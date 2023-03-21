@@ -40,4 +40,6 @@ public interface UserDAO {
 	public User selectUserById(@Param("id") int id);
 	
 	public List<User> selectUser(@Param("userId") int userId);
+	
+	public User selectInviteMember(@Param("nickname") String nickname);
 }

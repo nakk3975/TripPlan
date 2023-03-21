@@ -60,4 +60,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, now()
 		)
 	</insert>
+	
+	<select id="selectMember" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.invite.model.ScheduleMember">
+		SELECT
+			`id`
+			, `scheduleId`
+			, `userId`
+			, `role`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule_member`
+		WHERE
+			`scheduleId` = #{scheduleId}
+	</select>
+	
+	<update id="updateAuthorityUp" parameterType="int">
+		UPDATE
+			`schedule_member`
+		SET
+			`role` = 1
+	</update>
+	
+	<update id="updateAuthorityDown" parameterType="int">
+		UPDATE
+			`schedule_member`
+		SET
+			`role` = 0
+	</update>
+	
+	<select id="selectSchedule">
+		SELECT
+			`id`
+			, `scheduleId`
+			, `userId`
+			, `role`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule_member`
+		WHERE
+			`scheduleId` = #{scheduleId}
+	</select>
 </mapper>

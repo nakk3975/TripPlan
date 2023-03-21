@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.ahn.tripplan.schedule.dao.ScheduleDAO;
 import com.ahn.tripplan.schedule.invite.bo.InviteBO;
 import com.ahn.tripplan.schedule.invite.model.InviteMember;
+import com.ahn.tripplan.schedule.invite.model.ScheduleMember;
 import com.ahn.tripplan.schedule.model.Schedule;
 import com.ahn.tripplan.schedule.model.ScheduleData;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
 import com.ahn.tripplan.schedule.model.ScheduleInviteDetail;
+import com.ahn.tripplan.schedule.model.ScheduleMemberDetail;
 import com.ahn.tripplan.user.bo.UserBO;
 import com.ahn.tripplan.user.model.User;
 
@@ -74,6 +76,7 @@ public class ScheduleBO {
 				detailList.add(detail);
 			}
 		}
+		
 		return detailList;
 		
 	}
@@ -82,9 +85,10 @@ public class ScheduleBO {
 	public ScheduleDetail ScheduleDetail(int scheduleId) {
 		Schedule schedule = scheduleDAO.selectScheduleById(scheduleId);
 		ScheduleData scheduleData = scheduleDAO.selectScheduleData(scheduleId);
-		
+		User user = userBO.getUserById(schedule.getUserId());
 		ScheduleDetail detail = new ScheduleDetail();
 		
+		detail.setUserId(user.getId());
 		detail.setId(schedule.getId());
 		detail.setScheduleId(scheduleData.getId());
 		detail.setTitle(schedule.getTitle());
@@ -153,6 +157,26 @@ public class ScheduleBO {
 		
 		return detailList;
 	}
+	
+	// 초대 받은 멤버 리스트
+	public List<ScheduleMemberDetail> inviteMember(int scheduleId) {
+		List<ScheduleMember> memberList = inviteBO.selectScheduleMember(scheduleId);
+		List<ScheduleMemberDetail> detailList = new ArrayList<>();
+		
+		for(ScheduleMember member:memberList) {
+			ScheduleMemberDetail detail = new ScheduleMemberDetail();
+			User user = userBO.getUserById(member.getUserId());
+			
+			detail.setNickname(user.getNickname());
+			detail.setRole(member.getRole());
+			detail.setUpdatedAt(member.getUpdatedAt());
+			
+			detailList.add(detail);
+		}
+		return detailList;
+	}
+	
+	
 	
 	
 }

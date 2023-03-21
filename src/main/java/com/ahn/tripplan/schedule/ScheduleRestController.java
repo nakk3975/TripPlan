@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ahn.tripplan.schedule.bo.ScheduleBO;
 import com.ahn.tripplan.schedule.invite.bo.InviteBO;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
+import com.ahn.tripplan.user.model.User;
 
 @RestController
 @RequestMapping("/schedule")
@@ -144,12 +145,13 @@ public class ScheduleRestController {
 		return result;
 	}
 	
-	@PostMapping("/invite")
-	public Map<String, String> scheduleInvite(
-			@RequestParam("scheduleId") int scheduleId
-			, @RequestParam("userId") int userId) {
+
+	
+	@PostMapping("/member/authority")
+	public Map<String, String> changeAuthority(
+			@RequestParam("role") int role) {
 		
-		int count = inviteBO.insertInviteMember(scheduleId, userId);
+		int count = inviteBO.updateAuthority(role);
 		
 		Map<String, String> result = new HashMap<>();
 		
@@ -158,47 +160,7 @@ public class ScheduleRestController {
 		} else {
 			result.put("result", "fail");
 		}
-		
 		return result;
 	}
-	
-	@GetMapping("/invite/delete")
-	public Map<String, String> inviteRefuse(
-			@RequestParam("scheduleId") int scheduleId
-			, HttpSession session) {
-		int userId = (int) session.getAttribute("userId");
-		
-		int count = inviteBO.deleteInvite(scheduleId, userId);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(count == 1) {
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
-	
-	@PostMapping("/invite/accept")
-	public Map<String, String> invteAccept(
-			@RequestParam("scheduleId") int scheduleId
-			, HttpSession session) {
-		int userId = (int) session.getAttribute("userId");
-		
-		int count = inviteBO.insertInviteSchedule(scheduleId, userId);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(count == 1) {
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
-	
 	
 }

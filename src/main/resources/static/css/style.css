@@ -30,6 +30,10 @@ header > .head-content {
     padding-right: 1em;
  }
  
+ .nickname {
+  width:100px;
+ }
+ 
  .modal { 
  	overflow-y:auto; 
  }

@@ -61,4 +61,8 @@ public class UserBO {
 	public List<User> selectUserList(int userId) {
 		return userDAO.selectUser(userId);
 	}
+	
+	public User selectInviteUser(String nickname) {
+		return userDAO.selectInviteMember(nickname);
+	}
 }

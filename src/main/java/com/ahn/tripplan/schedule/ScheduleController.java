@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ahn.tripplan.schedule.bo.ScheduleBO;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
 import com.ahn.tripplan.schedule.model.ScheduleInviteDetail;
+import com.ahn.tripplan.schedule.model.ScheduleMemberDetail;
 import com.ahn.tripplan.user.bo.UserBO;
 import com.ahn.tripplan.user.model.User;
 
@@ -25,7 +26,6 @@ public class ScheduleController {
 	private ScheduleBO scheduleBO;
 	@Autowired
 	private UserBO userBO;
-	
 	
 	@GetMapping("/view")
 	public String scheduleView() {
@@ -42,9 +42,11 @@ public class ScheduleController {
 		
 		ScheduleDetail scheduleDetail = scheduleBO.ScheduleDetail(scheduleId);
 		List<User> user = userBO.selectUserList(userId);
+		List<ScheduleMemberDetail> member  = scheduleBO.inviteMember(scheduleId);
 		
 		model.addAttribute("schedule", scheduleDetail);
 		model.addAttribute("users", user);
+		model.addAttribute("members", member);
 		
 		return "schedule/scheduledetail";
 	}

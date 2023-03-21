@@ -24,36 +24,91 @@
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="col-12">
 			<h2>일정 상세</h2>
-			<div>
-				<label>제목</label>
-				<h4 class="col-12">${schedule.title}</h4>
-			</div>
-			<div>
-				<label>기간</label>
-				<h5 class="col-12">
-					<fmt:formatDate value="${schedule.startTime}" pattern="yyyy-MM-dd HH:mm"/>
-				 	~ 
-				 	<fmt:formatDate value="${schedule.endTime}" pattern="yyyy-MM-dd HH:mm"/>
-				</h5>
-			</div>
-			<div>
-				<label>비용</label>
-				<h5 class="col-12">${schedule.cost}원</h5>
-			</div>
-			<div>
-				<label>이동수단</label>
-				<h5 class="col-12">${schedule.move}</h5>
-			</div>
+			<div class="d-flex">
+				<div class="col-9">
+					<div>
+						<label>제목</label>
+						<h4>${schedule.title}</h4>
+					</div>
+					<div>
+						<label>기간</label>
+						<h5>
+							<fmt:formatDate value="${schedule.startTime}" pattern="yyyy-MM-dd HH:mm"/>
+						 	~ 
+						 	<fmt:formatDate value="${schedule.endTime}" pattern="yyyy-MM-dd HH:mm"/>
+						</h5>
+					</div>
+					<div>
+						<label>비용</label>
+						<h5>${schedule.cost}원</h5>
+					</div>
+					<div>
+						<label>이동수단</label>
+						<h5>${schedule.move}</h5>
+					</div>
+				</div>
+				<div class="col-3">
+					<h5>일정 멤버</h5>
+					<table border=1 class="text-center">
+						<c:forEach var="member" items="${members}">
+							<tr>
+								<td class="nickname">${member.nickname}</td>
+								<c:if test="${userId eq schedule.userId}">
+									<c:choose>
+										<c:when test="${member.role eq 0}">
+											<td><a href="#" class="changeAuthority" data-role="${member.role}">권한 없음</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href="#" class="changeAuthority" data-role="${member.role}">권한 있음</a></td>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>	
 			<div>
 				<label>내용</label>
 				<h5 class="col-12 border" style="word_wrap:break-word;  word-break: break-all;">${schedule.content}</h5>
 			</div>
-			<div class="d-flex justify-content-between">
-				<div>
-					<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
-					<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+			<c:forEach var="member" items="${members}">
+				<c:choose>
+					<c:when test="${member.role eq 0}">
+						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+					</c:when>
+					<c:when test="${member.role eq 1}">
+						<div class="d-flex justify-content-between">
+							<div>
+								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+								<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="d-flex justify-content-between">
+							<div>
+								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+								<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+							</div>
+							<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<div id="wishList" class="pt-3">
+				<h4>추가로 가고 싶은 곳</h4>
+				<div class="input-group mb-3">
+				  	<input type="text" class="form-control">
+				  	<span class="btn input-group-text" id="insertToDoList">입력</span>
 				</div>
-				<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
+				<c:forEach var="" items="">				
+					<div class="d-flex align-items-start col-10 mt-1">
+						<h6></h6>&nbsp;
+						<span></span>
+					</div>
+				</c:forEach>
 			</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
@@ -134,11 +189,11 @@
 									</tr>
 								</thead>
 								
-								<tbody>
+								<tbody id="searchTableBody">
 									<c:forEach var="user" items="${users}" varStatus="status">
 										<tr>
-											<td>${status.index + 1}</td>
-											<td>${user.nickname}</td>
+											<td>${status.count}</td>
+											<td class="nickname" id="searchNickname">${user.nickname}</td>
 											<td><button type="button" class="memberInviteBtn btn btn-primary" data-member-id="${user.id}" data-schedule-id="${schedule.id}">초대</button></td>
 										</tr>
 									</c:forEach>
@@ -159,6 +214,51 @@
 	<script>
 		$(document).ready(function() {
 			
+			// 권한 수정
+			$(".changeAuthority").on("click", function() {
+				let role = $(this).data("role");
+				
+				$.ajax({
+					type:"post"
+					, url:"/schedule/member/authority"
+					, data:{"role":role}
+					, success:function(data) {
+						if(data.result == "success") {
+							alert("권한 수정이 완료되었습니다.");
+							location.reload();
+						} else {
+							alert("권한 수정에 실패하였습니다.");
+						}
+					}
+					, error:function() {
+						alert("권한 수정 에러");
+					}
+				});
+			});
+			
+			// 검색 버튼 클릭시
+			$("#memberSearchBtn").on("click", function() {
+				let nickname = $("#memberSeacrch").val();
+				
+				$.ajax({
+					type:"post"
+					, url:"/schedule/invite/search"
+					, data:{"nickname":nickname}
+					, success:function(data) {
+						if(data.result == "success") {
+							$(".nickname").empty();
+							$("#searchNickname").append(data.nickname);
+							$("#searchTableBody tr:not(:first)").remove();
+						} else {
+							alert("일치하는 유저가 없습니다.");
+						}
+					}
+					, error:function() {
+						alert("검색 에러");
+					}
+				});
+			});
+			
 			// 초대 버튼 클릭시
 			$(".memberInviteBtn").on("click", function() {
 				let userId = $(this).data("member-id");
@@ -166,7 +266,7 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/schedule/invite"
+					, url:"/schedule/invite/invite"
 					, data:{"scheduleId":scheduleId, "userId":userId}
 					, success:function(data) {
 						if(data.result == "success") {
