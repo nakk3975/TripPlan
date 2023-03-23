@@ -1,6 +1,9 @@
 package com.ahn.tripplan.schedule.model;
 
 import java.util.Date;
+import java.util.List;
+
+import com.ahn.tripplan.schedule.todolist.model.ToDoList;
 
 public class ScheduleDetail {
 
@@ -13,6 +16,7 @@ public class ScheduleDetail {
 	private Date endTime;
 	private String move;
 	private int cost;
+	private List<ToDoList> toDoListComment;
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -69,6 +73,12 @@ public class ScheduleDetail {
 	}
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+	public List<ToDoList> getToDoListComment() {
+		return toDoListComment;
+	}
+	public void setToDoListComment(List<ToDoList> toDoListComment) {
+		this.toDoListComment = toDoListComment;
 	}
 	public Date getCreatedAt() {
 		return createdAt;

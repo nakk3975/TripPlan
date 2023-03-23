@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ahn.tripplan.schedule.bo.ScheduleBO;
 import com.ahn.tripplan.schedule.invite.bo.InviteBO;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
-import com.ahn.tripplan.user.model.User;
 
 @RestController
 @RequestMapping("/schedule")

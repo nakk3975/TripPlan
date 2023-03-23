@@ -74,25 +74,22 @@
 			</div>
 			<c:forEach var="member" items="${members}">
 				<c:choose>
-					<c:when test="${member.role eq 0}">
-						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
-					</c:when>
-					<c:when test="${member.role eq 1}">
+					<c:when test="${userId eq schedule.userId}">
 						<div class="d-flex justify-content-between">
 							<div>
 								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
 								<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
-							</div>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="d-flex justify-content-between">
-							<div>
-								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
-								<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+								<a href="/board/create/view?scheduleId=${schedule.id}" class="btn btn-warning">공유</a>
 							</div>
 							<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
 						</div>
+					</c:when>
+					<c:when test="${member.role eq 0}">
+						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -100,13 +97,13 @@
 			<div id="wishList" class="pt-3">
 				<h4>추가로 가고 싶은 곳</h4>
 				<div class="input-group mb-3">
-				  	<input type="text" class="form-control">
-				  	<span class="btn input-group-text" id="insertToDoList">입력</span>
+				  	<input type="text" class="form-control" id="contentInput">
+				  	<span class="btn input-group-text" id="insertToDoList" data-id="${schedule.id}">입력</span>
 				</div>
-				<c:forEach var="" items="">				
+				<c:forEach var="todoList" items="${schedule.toDoListComment}"  varStatus="status">				
 					<div class="d-flex align-items-start col-10 mt-1">
-						<h6></h6>&nbsp;
-						<span></span>
+						<h6>${status.count}</h6>&nbsp;
+						<span>${todoList.listContent}</span>
 					</div>
 				</c:forEach>
 			</div>
@@ -131,12 +128,10 @@
           				<div class="form-group">
 				            <label id="scheduleStartDate">시작 날짜, 시간</label>
 				            <input type="text" class="form-control" id="scheduleStartDatepicker" value="<fmt:formatDate value="${schedule.startTime}" pattern="yyyy-MM-dd HH:mm"/>">
-            
 			          	</div>
 			          	<div class="form-group">
 				            <label id="scheduleEndDate">끝나는 날짜, 시간</label>
 				            <input type="text" class="form-control" id="scheduleEndDatepicker" value="<fmt:formatDate value="${schedule.endTime}" pattern="yyyy-MM-dd HH:mm"/>">
-            
 			          	</div>
 			          	<div class="form-group">
             				<label id="scheduleCostLabel">비용</label>
@@ -213,6 +208,28 @@
 	<script src="/static/js/form.js"></script>
 	<script>
 		$(document).ready(function() {
+			
+			// 가고 싶은 곳 입력
+			$("#insertToDoList").on("click", function() {
+				let scheduleId = $(this).data("id");
+				let listContent = $("#contentInput").val();
+				
+				$.ajax({
+					type:"post"
+					, url:"/todo/create"
+					, data:{"scheduleId":scheduleId, "listContent":listContent}
+					, success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("입력 실패");
+						}
+					}
+					, error:function() {
+						alert("입력 에러");
+					}
+				});
+			});
 			
 			// 권한 수정
 			$(".changeAuthority").on("click", function() {

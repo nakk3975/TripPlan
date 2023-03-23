@@ -23,4 +23,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, now()
 		)
 	</insert>
+	
+	<select id="selectList" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.todolist.model.ToDoList">
+		SELECT
+			`id`
+			, `scheduleId`
+			, `userId`
+			, `listContent`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`to_do_list`
+		WHERE
+			`scheduleId` = #{scheduleId}
+	</select>
 </mapper>

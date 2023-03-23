@@ -7,6 +7,7 @@
 				<nav class="main-menu col-8 pt-3">
 					<ul class="nav justify-content-around">
 						<li class="nav-item"><a href="/destination/main/view" class="nav-link font-weight-bold">메인화면</a></li>
+						<li class="nav-item"><a href="/board/main/view" class="nav-link font-weight-bold">일정 게시판</a></li>
 						<li class="nav-item"><a href="#" class="nav-link font-weight-bold">찾아보기</a></li>
 						<li class="nav-item"><a href="#" class="nav-link font-weight-bold">주변지도</a></li>
 						<li class="nav-item"><a href="/schedule/view" class="nav-link font-weight-bold">일정보기</a></li>
@@ -14,7 +15,6 @@
 				</nav>
 				<c:if test="${not empty userId}">
 					<span class="col-2 pt-4">${userLoginId}님<a href="/user/signout">로그아웃</a></span>
-					
 				</c:if>
 			</div>
 			<hr>

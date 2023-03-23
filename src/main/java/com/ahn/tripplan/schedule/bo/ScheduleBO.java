@@ -15,6 +15,8 @@ import com.ahn.tripplan.schedule.model.ScheduleData;
 import com.ahn.tripplan.schedule.model.ScheduleDetail;
 import com.ahn.tripplan.schedule.model.ScheduleInviteDetail;
 import com.ahn.tripplan.schedule.model.ScheduleMemberDetail;
+import com.ahn.tripplan.schedule.todolist.bo.ToDoListBO;
+import com.ahn.tripplan.schedule.todolist.model.ToDoList;
 import com.ahn.tripplan.user.bo.UserBO;
 import com.ahn.tripplan.user.model.User;
 
@@ -27,6 +29,8 @@ public class ScheduleBO {
 	private UserBO userBO;
 	@Autowired
 	private InviteBO inviteBO;
+	@Autowired
+	private ToDoListBO toDoListBO;
 	
 	// 일정 제목 및 정보 저장
 	public int insertScheduel(int userId, String title) {
@@ -87,6 +91,7 @@ public class ScheduleBO {
 		ScheduleData scheduleData = scheduleDAO.selectScheduleData(scheduleId);
 		User user = userBO.getUserById(schedule.getUserId());
 		ScheduleDetail detail = new ScheduleDetail();
+		List<ToDoList> toDoList = toDoListBO.toDoSelect(scheduleId);
 		
 		detail.setUserId(user.getId());
 		detail.setId(schedule.getId());
@@ -99,6 +104,7 @@ public class ScheduleBO {
 		detail.setCost(scheduleData.getCost());
 		detail.setCreatedAt(scheduleData.getCreatedAt());
 		detail.setUpdatedAt(scheduleData.getUpdatedAt());
+		detail.setToDoListComment(toDoList);
 		
 		return detail;
 	}

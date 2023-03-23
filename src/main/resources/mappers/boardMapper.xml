@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ahn.tripplan.board.dao.BoardDAO">
+	<insert id="createBoard" parameterType="map">
+		INSERT INTO
+			`board`
+		(
+			`userId`
+			, `scheduleId`
+			, `title`
+			, `boardContent`
+			, `hit`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{userId}
+			, #{scheduleId}
+			, #{title}
+			, #{boardContent}
+			, 0
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<select id="selectBoardList"
+	resultType="com.ahn.tripplan.board.model.Board">
+		SELECT
+			`id`
+			, `userId`
+			, `scheduleId`
+			, `title`
+			, `boardContent`
+			, `hit`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`board`
+	</select>
+</mapper>

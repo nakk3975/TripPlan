@@ -47,7 +47,7 @@
         			<button type="button" class="close" data-dismiss="modal">&times;</button>
       			</div>
       			<div class="modal-body">
-        			<form id="scheduleTitleForm">
+        			<form id="scheduleForm">
           				<div class="form-group">
             				<label id="scheduleTitleLabel">제목</label>
             				<input type="text" class="form-control" id="scheduleTitle">
