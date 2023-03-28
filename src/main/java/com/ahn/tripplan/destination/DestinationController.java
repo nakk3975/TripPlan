@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import com.ahn.tripplan.destination.model.DetailCommon;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -22,19 +21,25 @@ public class DestinationController {
 		return "destination/main";
 	}
 	
-	@GetMapping("/detail/view")
-	public String detail (
-			@RequestParam("contentid") String contentid
-			, Model model) throws JsonMappingException, JsonProcessingException  {
-		String url = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=" + SERVICE_KEY 
-				+ "&contentId=" + contentid + "defaultYN=Y&MobileOS=ETC&MobileApp=TripPlan&firstImageYN=Y"
-						+ "&addrinfoYN=Y&overviewYN=Y&_type=json";
-		RestTemplate restTemplate = new RestTemplate();
-		DetailCommon response = restTemplate.getForObject(url, DetailCommon.class);
-		
-		model.addAttribute("data", response.getResponse().getBody().getItems().getItem());
-		
-		return "destination/detail";
+//	@GetMapping("/detail/view")
+//	public String detail (
+//			@RequestParam("contentid") String contentid
+//			, Model model) throws JsonMappingException, JsonProcessingException  {
+//		String url = "http://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=" + SERVICE_KEY 
+//				+ "&contentId=" + contentid
+//				+ "defaultYN=Y&MobileOS=ETC&MobileApp=TripPlan&firstImageYN=Y"
+//				+ "&addrinfoYN=Y&overviewYN=Y&_type=json";
+//		RestTemplate restTemplate = new RestTemplate();
+//		ImageListResponse response = restTemplate.getForObject(url, ImageListResponse.class);
+//		
+//		model.addAttribute("data", response.getResponse().getBody().getItems().getItem());
+//		
+//		return "destination/detail";
+//	}
+	
+	@GetMapping("/search/view")
+	public String search(){
+		return "destination/search";
 	}
 	
 }

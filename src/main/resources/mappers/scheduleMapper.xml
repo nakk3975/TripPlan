@@ -143,5 +143,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`id` = #{scheduleId}
 	</update>
+	
+	<select id="selectInviteSchedule" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.model.Schedule">
+		SELECT
+			`id`
+			, `userId`
+			, `title`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<select id="selectInviteScheduleData" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.model.ScheduleData">
+		SELECT
+			`id`
+			, `scheduleId`
+			, `content`
+			, `startTime`
+			, `endTime`
+			, `move`
+			, `cost`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`schedule_id`
+	</select>
 
 </mapper>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,53 +19,12 @@
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section>
-			<h2>일정 게시판</h2>
-			<table class="table">
-				<thead>
-					<tr>
-						<th class="col-1">No.</th>
-						<th class="col-7">제목</th>
-						<th class="col-1">작성자</th>
-						<th class="col-2">작성일</th>
-						<th class="col-1">조회</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="board" items="${boards}" varStatus="status">
-						<tr>
-							<td>${status.count}</td>
-							<td class="board-title" data-id="${board.id}" style="cursor:pointer">${board.title}</td>
-							<td>${board.nickname}</td>
-							<td><fmt:formatDate value="${board.createdAt}" pattern="yyyy/MM/dd HH:mm"/></td>
-							<td>${board.hit}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<hr>
+			 <h2 class="text-center">검색</h2>
+			 <div class="d-flex justify-content-center">
+			 	<input type="text" class="form-control col-8">
+			 </div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
-	
-	<script>
-		$(document).ready(function() {
-			
-			$(".board-title").on("click", function() {
-				let id = $(this).data("id");
-				
-				$.ajax({
-					type:"get"
-					, url:"/board/hit"
-					, data:{"boardId":id}
-					, success:function(data) {
-						location.href="/board/detail/view?id=" + id;
-					}
-					, error:function() {
-						alert("조회수 에러");
-					}
-				});
-			});
-		});
-	</script>
 </body>
 </html>

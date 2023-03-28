@@ -42,4 +42,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 			`board`
 	</select>
+	
+	<select id="selectBoardDetail" parameterType="int"
+	resultType="com.ahn.tripplan.board.model.Board">
+		SELECT
+			`id`
+			, `userId`
+			, `scheduleId`
+			, `title`
+			, `boardContent`
+			, `hit`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`board`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<update id="updateHitScore" parameterType="int">
+		UPDATE
+			`board`
+		SET
+			`hit` = `hit` + 1
+		WHERE
+			`id` = #{boardId}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM
+			`board`
+		WHERE
+			`id` = #{id}
+	</delete>
+	
+	<select id="selectboardIdLimit" parameterType="int"
+	resultType="int">
+		SELECT
+			`id`
+		FROM
+			`board`
+		WHERE
+			`userId` = #{userId}
+		ORDER BY `id` DESC
+		LIMIT 1;
+	</select>
 </mapper>

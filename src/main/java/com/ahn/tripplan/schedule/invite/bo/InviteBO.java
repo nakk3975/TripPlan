@@ -59,7 +59,7 @@ public class InviteBO {
 	}
 	
 	// 초대가 완료된 리스트
-	public ScheduleMember selectSchedule(int scheduleId) {
-		return inviteDAO.selectSchedule(scheduleId);
+	public List<ScheduleMember> selectInviteSchedule(int userId) {
+		return inviteDAO.selectInviteSchedule(userId);
 	}
 }

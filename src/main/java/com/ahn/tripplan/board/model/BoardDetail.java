@@ -1,6 +1,9 @@
 package com.ahn.tripplan.board.model;
 
 import java.util.Date;
+import java.util.List;
+
+import com.ahn.tripplan.board.comment.model.CommentDetail;
 
 public class BoardDetail {
 	
@@ -11,6 +14,10 @@ public class BoardDetail {
 	private String title;
 	private String boardContent;
 	private int hit;
+	private List<CommentDetail> comment;
+	private int likeCount;
+	private boolean isLike;
+	private String tag;
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -55,6 +62,30 @@ public class BoardDetail {
 	}
 	public void setHit(int hit) {
 		this.hit = hit;
+	}
+	public List<CommentDetail> getComment() {
+		return comment;
+	}
+	public void setComment(List<CommentDetail> comment) {
+		this.comment = comment;
+	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	public boolean isLike() {
+		return isLike;
+	}
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 	public Date getCreatedAt() {
 		return createdAt;

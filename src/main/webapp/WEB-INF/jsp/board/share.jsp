@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +28,7 @@
    				</div>
         		<div class="form-group">
           			<label id="scheduleContentLabel">내용</label>
-       				<!-- 나중에 수정 -->
+       				<!-- 나중에 개행 수정 -->
        				<fmt:formatDate value="${schedule.startTime}" var="startTime" pattern="yyyy-MM-dd HH:mm"/>
        				<fmt:formatDate value="${schedule.endTime}" var="endTime" pattern="yyyy-MM-dd HH:mm"/>
        				<textarea class="form-control" id="boardContent" rows="10">
@@ -35,7 +36,12 @@
 비용 : ${schedule.cost}
 내용 : ${schedule.content}
 					</textarea>
+       				
         		</div>
+        		<div class="form-group">
+       				<label id="scheduleTagLabel">태그</label>
+       				<input type="text" class="form-control" id="boardTag" placeholder="#서울 #대구 #부산 #광주">
+   				</div>
      		</form>
    			<div class="d-flex justify-content-between">
      			<button type="button" class="btn btn-primary" id="saveBoardBtn" data-id="${schedule.id}">저장</button>
@@ -51,6 +57,7 @@
 				let id = $(this).data("id");
 				let title = $("#boardTitle").val();
 				let content = $("#boardContent").val();
+				let tag = $("#boardTag").val();
 				
 				$.ajax({
 					type:"post"
@@ -58,7 +65,22 @@
 					, data:{"scheduleId":id, "title":title, "boardContent":content}
 					, success:function(data) {
 						if(data.result == "success") {
-							location.href="/board/main/view";
+							$.ajax({
+								type:"post"
+								, url:"/board/tag/create"
+								, data:{"tag":tag}
+								, success:function(data) {
+									if(data.result == "success") {
+										alert("저장이 완료되었습니다.");
+										location.href="/board/main/view";
+									} else {
+										alert("태그 저장 실패");
+									}
+								}
+								, error:function() {
+									alert("태그 입력 에러");
+								}
+							});
 						} else {
 							alert("저장 실패");
 						}

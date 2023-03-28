@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ahn.tripplan.board.like.dao.LikeDAO">
+	
+	<insert id="insertLike" parameterType="int">
+		INSERT INTO
+			`like`
+		(
+			`userId`
+			, `boardId`
+			, `createdAt`
+		)
+		VALUE
+		(
+			#{userId}
+			, #{boardId}
+			, now()
+		)
+	</insert>
+	
+	<select id="selectCountLike" parameterType="int"
+	resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`like`
+		WHERE
+			`boardId` = #{boardId}	
+	</select>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM
+			`like`
+		WHERE
+			`boardId` = #{boardId}
+			AND `userId` = #{userId}
+	</delete>
+	
+	<select id="selectLikeById" parameterType="map" 
+	resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`like`
+		WHERE
+			`boardId` = #{boardId}
+			AND `userId` = #{userId}
+	</select>
+	
+	<delete id="deleteLikeByBoardId" parameterType="int">
+		DELETE FROM
+			`like`
+		WHERE
+			`boardId` = #{boardId}
+	</delete>
+</mapper>

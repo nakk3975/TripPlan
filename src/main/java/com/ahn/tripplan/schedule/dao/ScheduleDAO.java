@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ahn.tripplan.schedule.model.Schedule;
 import com.ahn.tripplan.schedule.model.ScheduleData;
+import com.ahn.tripplan.schedule.model.ScheduleMemberDetail;
 
 @Repository
 public interface ScheduleDAO {
@@ -49,6 +50,8 @@ public interface ScheduleDAO {
 			, @Param("move") String move
 			, @Param("cost") int cost);
 	
+	public List<Schedule> selectInviteSchedule(@Param("id") int id);
 	
+	public ScheduleMemberDetail selectInviteScheduleData(@Param("scheduleId") int scheduleId);
 	
 }

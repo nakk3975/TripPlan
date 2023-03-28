@@ -31,5 +31,5 @@ public interface InviteDAO {
 	
 	public int updateAuthorityDown(@Param("role") int role);
 	
-	public ScheduleMember selectSchedule(@Param("scheduleId") int scheduleId);
+	public List<ScheduleMember> selectInviteSchedule(@Param("userId") int userId);
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ahn.tripplan.board.tag.dao.TagDAO">
+	<insert id="insertTag" parameterType="map">
+		INSERT INTO
+			`tag`
+		(
+			`boardId`
+			, `tag`
+			, `createdAt`
+		)
+		VALUE
+		(
+			#{boardId}
+			, #{tag}
+			, now()
+		)
+	</insert>
+	
+	<select id="selectTag" parameterType="int"
+	resultType="com.ahn.tripplan.board.tag.model.Tag">
+		SELECT
+			`id`
+			, `boardId`
+			, `tag`
+			, `createdAt`
+		FROM
+			`tag`
+		WHERE
+			`boardId` = #{boardId}
+	</select>
+	
+	<delete id="deleteTag" parameterType="int">
+		DELETE FROM
+			`tag`
+		WHERE
+			`boardId` = #{boardId}
+	</delete>
+</mapper>

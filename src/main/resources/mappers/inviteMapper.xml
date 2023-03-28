@@ -90,7 +90,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			`role` = 0
 	</update>
 	
-	<select id="selectSchedule">
+	<select id="selectInviteSchedule" parameterType="int"
+	resultType="com.ahn.tripplan.schedule.invite.model.ScheduleMember">
 		SELECT
 			`id`
 			, `scheduleId`
@@ -101,6 +102,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 			`schedule_member`
 		WHERE
-			`scheduleId` = #{scheduleId}
+			`userId` = #{userId}
 	</select>
 </mapper>

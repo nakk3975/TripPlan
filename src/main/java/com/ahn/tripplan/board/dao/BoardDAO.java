@@ -17,4 +17,12 @@ public interface BoardDAO {
 			, @Param("boardContent") String boardContent);
 	
 	public List<Board> selectBoardList();
+	
+	public Board selectBoardDetail(@Param("id") int id);
+	
+	public int updateHitScore(@Param("boardId") int boardId);
+	
+	public int deleteBoard(@Param("id") int id);
+	
+	public int selectboardIdLimit(@Param("userId") int userId);
 }

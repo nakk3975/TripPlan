@@ -72,9 +72,21 @@
 				<label>내용</label>
 				<h5 class="col-12 border" style="word_wrap:break-word;  word-break: break-all;">${schedule.content}</h5>
 			</div>
+			
+			<c:if test="${empty members}">
+				<div class="d-flex justify-content-between">
+					<div>
+						<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+						<a href="/board/create/view?scheduleId=${schedule.id}" class="btn btn-warning">공유</a>
+					</div>
+					<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
+				</div>
+			</c:if>
+			
 			<c:forEach var="member" items="${members}">
 				<c:choose>
-					<c:when test="${userId eq schedule.userId}">
+					<c:when test="${userId eq schedule.userId or member.role eq 1}">
 						<div class="d-flex justify-content-between">
 							<div>
 								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
@@ -84,15 +96,12 @@
 							<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
 						</div>
 					</c:when>
-					<c:when test="${member.role eq 0}">
-						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
-					</c:when>
 					<c:otherwise>
-						<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
 						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
+			
 			
 			<div id="wishList" class="pt-3">
 				<h4>추가로 가고 싶은 곳</h4>

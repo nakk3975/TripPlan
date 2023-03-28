@@ -17,6 +17,19 @@ header > .head-content {
 	text-decoration: none;
 }
 
+.board-title {
+	color: black;
+}
+
+.board-title:hover {
+	text-decoration: none;
+	color: black;
+}
+
+#commentLine{
+	line-height: 50%;
+}
+
 #calendar-container {
     overflow: hidden;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;

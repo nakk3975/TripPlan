@@ -8,6 +8,9 @@ public class ScheduleMemberDetail {
 	private int scheduleId;
 	private int userId;
 	private int role;
+	private String title;
+	private Date startTime;
+	private Date endTime;
 	private String nickname;
 	private Date createdAt;
 	private Date updatedAt;
@@ -36,6 +39,24 @@ public class ScheduleMemberDetail {
 	public void setRole(int role) {
 		this.role = role;
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
 	public String getNickname() {
 		return nickname;
 	}
@@ -54,5 +75,7 @@ public class ScheduleMemberDetail {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+
 	
 }

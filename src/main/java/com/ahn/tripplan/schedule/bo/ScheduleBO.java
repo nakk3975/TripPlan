@@ -58,8 +58,30 @@ public class ScheduleBO {
 	// 위에서 검색한 전체 일정
 	public List<ScheduleDetail> selectSchedule(int userId) {
 		List<Schedule> scheduleList = scheduleDAO.selectSchedule(userId);
-		
 		List<ScheduleDetail> detailList = new ArrayList<>();
+		
+		List<ScheduleMember> scheduleMember = inviteBO.selectInviteSchedule(userId);
+			for(ScheduleMember member:scheduleMember) {
+				List<Schedule> scheduleInviteList = scheduleDAO.selectInviteSchedule(member.getScheduleId());	
+				for(Schedule schedule:scheduleInviteList) {
+					ScheduleData scheduleData = scheduleDAO.selectScheduleData(schedule.getId());
+					ScheduleDetail detail = new ScheduleDetail();
+					User user = userBO.getUserById(schedule.getUserId());
+					if(schedule.getId() == scheduleData.getScheduleId()) {
+						detail.setId(schedule.getId());
+						detail.setScheduleId(scheduleData.getId());
+						detail.setUserId(user.getId());
+						detail.setTitle(schedule.getTitle());
+						detail.setContent(scheduleData.getContent());
+						detail.setStartTime(scheduleData.getStartTime());
+						detail.setEndTime(scheduleData.getEndTime());
+						detail.setMove(scheduleData.getMove());
+						detail.setCost(scheduleData.getCost());
+						detail.setCreatedAt(scheduleData.getCreatedAt());	
+						detailList.add(detail);
+					}
+				}
+			}
 		
 		for(Schedule schedule:scheduleList) {
 			ScheduleData scheduleData = scheduleDAO.selectScheduleData(schedule.getId());
@@ -75,8 +97,7 @@ public class ScheduleBO {
 				detail.setEndTime(scheduleData.getEndTime());
 				detail.setMove(scheduleData.getMove());
 				detail.setCost(scheduleData.getCost());
-				detail.setCreatedAt(scheduleData.getCreatedAt());
-				
+				detail.setCreatedAt(scheduleData.getCreatedAt());	
 				detailList.add(detail);
 			}
 		}
