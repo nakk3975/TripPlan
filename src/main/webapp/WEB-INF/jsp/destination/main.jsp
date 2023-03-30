@@ -22,7 +22,7 @@
 			 <article>
 			 	<h2 class="text-center">추천 여행지</h2>
 			 	<div id="destination-box" class="d-flex justify-content-between row text-center col-12">
-				 	
+				
               	</div>
               </article>
 		</section>
@@ -30,46 +30,35 @@
 	</div>
 	<script>
 	
-		$(document).ready(function() {
-			
-			var apiUrl = "http://apis.data.go.kr/B551011/KorService1/areaBasedList1?";
-				apiUrl += "serviceKey=Uw6gaLxXT6Kse3SbXODEh3jf7z4UQQ5UWXm0qQflrhIHEXFvNGRRi%2BWrU1BQu8rhdkUYKwr7vvQnAfhhhSxkjw%3D%3D";
-				apiUrl += "&MobileOS=ETC";
-				apiUrl += "&MobileApp=TripPlan";
-				apiUrl += "&numOfRows=10";
-				apiUrl += "&pageNo=1";
-				apiUrl += "&contentTypeId=12";
-				apiUrl += "&_type=json";
-				
+		$(document).ready(function() {		
+	
 			$.ajax({
 				type:"get"
-				, url:apiUrl
-				, dataType:"json"
+				, url:"/destination/main"
+				, dataType: "json"
 				, success:function(data) {
-					let items = data.response.body.items.item;
-					
+					var items = data.response.body.items.item;
 					for(let i = 0; i < items.length; i++) {
 						let title = items[i].title;
 						let image = items[i].firstimage;
-						let contentid = items[i].contentid;
+						let contentId = items[i].contentid;
 						if(image == null || image == ""){
 							continue;
-						}
-						
-						let html = "<div class='destinations py-4'> <img class='destimation-img' width='250px' src='" + image + "' data-contentid=" + contentid + " /> <div class='destination-title' data-contentid=" + contentid + ">" + title + "</div> </div>";
-						
+						}	
+						let html = "<div class='destinations py-4'> <img class='destimation-img' width='250px' src='" + image + "' data-contentid=" + contentId + " /> <div class='destination-title' data-contentid=" + contentId + ">" + title + "</div> </div>";
 						$("#destination-box").append(html);
 					}
 					// 이미지 클릭시 상세 정보 페이지로 이동
 					$(".destimation-img").on("click", function() {
-						let contentId = $(this).data("contentid"); 
-						location.href = "/destination/detail/view?contentid=" + contentId;
+						let contentid = $(this).data("contentid"); 
+						location.href = "/destination/detail/view?contentid=" + contentid;
 					});
 				}
 				, error:function() {
 					alert("API 오류");
 				}
 			});
+			
 		});
 	</script>
 </body>

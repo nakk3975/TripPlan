@@ -18,14 +18,65 @@
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section>
-		 	<h2 class="text-center" id="title">${data.title}</h2>
-		 	<img id="image" src="${data.firstImage}">
-		 	<h5 id="address">주소 :</h5>
-		 	<h5 id="tel">전화번호 : </h5>
-		 	<h5 id="overview"></h5>
+			<div class="d-flex">
+			 	<img id="image" src="" width="600">
+			 	<div class="pl-2">
+				 	<h2 id="title"></h2>
+				 	<h5 id="address">주소 :</h5>
+				 	<h5 id="tel">전화번호 : </h5>
+				 	<h5 id="homepage">홈페이지 : </h5>
+				 	<h5>개요</h5>
+				 	<div id="explanation"></div>
+				 	<a href="/destination/main/view">목록으로</a>
+			 	</div>
+		 	</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
+	
+	<script>
+		function getParameterByName(name) {
+			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		  	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		  	results = regex.exec(location.search);
+		  	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+		
+		$(document).ready(function() {
+			let contentId = getParameterByName("contentid");
 
+			$.ajax({
+				type:"get"
+				, url:"/destination/detail"
+				, data:{"contentId":contentId}
+				, dataType: "json"
+				, success:function(data) {
+					var item = data.response.body.items.item[0];
+					
+					let title = item.title;
+					let image = item.firstimage;
+					let tel = item.tel;
+					let address = item.addr1;
+					let url = item.homepage;
+					let outline = item.overview;
+					
+					$("#title").append(title);
+					$("#image").attr("src",image);
+					$("#address").append(" " + address);
+					if(tel == ""){
+						$("#tel").append(" " + "전화번호 없음");
+					} else {
+						$("#tel").append(" " + tel);
+					}
+					$("#homepage").append(" " + url);
+					$("#explanation").append(outline);
+				}
+				, error:function() {
+					alert("api 오류");
+				}
+			});
+			
+		});
+	</script>
 </body>
 </html>
