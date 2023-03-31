@@ -27,16 +27,15 @@ public class DestinationBO {
 	public String SelectImageApi()  throws IOException, URISyntaxException {
 		
 		String apiList = "/areaBasedList1";
-		int numOfRows = 10;
-		int pageNo = 1;
+		int numOfRows = 12;
 		int contentTypeId = 12;
 		
 		String serviceKey = URLEncoder.encode(key,"UTF-8");
 		
 		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
 				+ "&numOfRows=" + numOfRows
-				+ "&pageNo=" + pageNo
-				+ "&contentTypeId=" + contentTypeId; 
+				+ "&contentTypeId=" + contentTypeId
+				+ "&arrange=Q"; 
 		
 		URI uri = new URI(requestUrl);
 		
@@ -81,12 +80,12 @@ public class DestinationBO {
 	// 지도에 마커 추가
 	public String SelectMapApi()  throws IOException, URISyntaxException {
 		
-		String apiList = "/detailCommon1";
+		String apiList = "/areaBasedList1";
 		
 		String serviceKey = URLEncoder.encode(key,"UTF-8");
 		
 		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
-				+ "defaultYN=Y&contentTypeId=12&addrinfoYN=Y&mapinfoYN=Y";
+				+ "&contentTypeId=12&numOfRows=12002";
 		
 		URI uri = new URI(requestUrl);
 		
@@ -102,5 +101,73 @@ public class DestinationBO {
 		return response;
 		
 	}
-
+	
+	// 지역 리스트
+	public String selectAreaList() throws IOException, URISyntaxException {
+		String apiList = "/areaCode1";
+		
+		String serviceKey = URLEncoder.encode(key,"UTF-8");
+		
+		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
+				+ "&areaCode=&numOfRows=20";
+		
+		URI uri = new URI(requestUrl);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		String response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class).getBody();
+		
+		return response;
+	}
+	
+	// 지역별 구 리스트
+	public String selectCountyList(int areaCode) throws IOException, URISyntaxException {
+		String apiList = "/areaCode1";
+		
+		String serviceKey = URLEncoder.encode(key,"UTF-8");
+		
+		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
+				+ "&areaCode=" + areaCode + "&numOfRows=30";
+		
+		URI uri = new URI(requestUrl);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		String response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class).getBody();
+		
+		return response;
+	}
+	
+	// 구별 리스트
+	public String selectDistrictList(int areaCode,int sigunguCode) throws IOException, URISyntaxException {
+		String apiList = "/areaBasedList1";
+		
+		String serviceKey = URLEncoder.encode(key,"UTF-8");
+		
+		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
+				+ "&areaCode=" + areaCode + "&sigunguCode=" + sigunguCode + "&arrange=A&contentTypeId=12&arrange=A&numOfRows=300";
+		
+		URI uri = new URI(requestUrl);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		String response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class).getBody();
+		
+		return response;
+	}
 }

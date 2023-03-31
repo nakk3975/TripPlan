@@ -27,7 +27,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		
 		// 로그인이 되어 있는 경우
 		if(userId != null) {
-			
 			// 회원가입 페이지, 로그인 페이지를 접근할 경우
 			// /user/signup/view, /user/signin/view
 			// /user 로 시작하는 페이지 접근할 경우
@@ -54,7 +53,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			, HttpServletResponse response
 			, Object handler
 			, ModelAndView modelAndView) {
-		
 	}
 	
 	@Override
@@ -62,7 +60,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			HttpServletRequest request
 			, HttpServletResponse response
 			, Object handler
-			, Exception ex) {
-		
+			, Exception ex) {	
 	}
 }

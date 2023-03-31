@@ -50,8 +50,8 @@
 					}
 					// 이미지 클릭시 상세 정보 페이지로 이동
 					$(".destimation-img").on("click", function() {
-						let contentid = $(this).data("contentid"); 
-						location.href = "/destination/detail/view?contentid=" + contentid;
+						let contentId = $(this).data("contentid"); 
+						location.href = "/destination/detail/view?contentid=" + contentId;
 					});
 				}
 				, error:function() {

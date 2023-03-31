@@ -20,20 +20,34 @@ public class DestinationRestController {
 	
 	@GetMapping("/main")
     public String callApi() throws IOException, URISyntaxException{
-		String result = destinationBO.SelectImageApi();
-        return result;
+        return destinationBO.SelectImageApi();
     }
 	
 	@GetMapping("/detail")
 	public String detailDestination(@RequestParam("contentId") String contentId) throws IOException, URISyntaxException {
-		String result = destinationBO.SelectDetailApi(contentId);
-		return result;
+		return destinationBO.SelectDetailApi(contentId);
 	}
 	
 	@GetMapping("/map")
 	public String destinationMap() throws IOException, URISyntaxException {
-		String result = destinationBO.SelectMapApi();
-		return result;
+		return destinationBO.SelectMapApi();
+	}
+	
+	@GetMapping("/areaList")
+	public String areaList() throws IOException, URISyntaxException {
+		return destinationBO.selectAreaList();
+	}
+	
+	@GetMapping("/countryList")
+	public String countryList(@RequestParam("areaCode") int areaCode) throws IOException, URISyntaxException {
+		return destinationBO.selectCountyList(areaCode);
+	}
+	
+	@GetMapping("/districtList")
+	public String districtList(
+			@RequestParam("areaCode") int areaCode
+			, @RequestParam("sigunguCode") int sigunguCode) throws IOException, URISyntaxException {
+		return destinationBO.selectDistrictList(areaCode, sigunguCode);
 	}
 	
 }

@@ -19,12 +19,111 @@
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section>
-			 <h2 class="text-center">검색</h2>
 			 <div class="d-flex justify-content-center">
-			 	<input type="text" class="form-control col-8">
+			 	<table class="table table-hover text-center">
+			 		<thead>
+			 			<tr id="tableTitle">
+			 				<th><h2>지역 선택</h2></th>
+			 			</tr>
+			 		</thead>
+			 		<tbody id="areaList">
+			 		
+			 		</tbody>
+			 	</table>
 			 </div>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			
+			$.ajax({
+				type:"get"
+				, url:"/destination/areaList"
+				, dataType:"json"
+				, success:function(data) {
+					let items = data.response.body.items.item;
+					for(let i = 0; i < items.length; i++) {
+						let code = items[i].code;
+						let name = items[i].name;
+						let html = "<tr class='area-name' style='cursor:pointer' data-id='" + code + "'><td>" + name + "</td></tr>";
+						$("#areaList").append(html);
+					}
+					let html = "<tr class='my-location' style='cursor:pointer'><td>내 주변</td></tr>"
+					$("#areaList").append(html);
+				}
+				, error:function() {
+					alert("지역 조회 에러");
+				}
+			});
+			
+			// 내 주변을 눌렀을 때
+			
+			// 시를 눌렀을 때 군구 표시
+			$("#areaList").on("click", ".area-name", function() {
+				let areaCode = $(this).data("id");
+				$.ajax({
+					type:"get"
+					, url:"/destination/countryList"
+					, data:{"areaCode":areaCode}
+					, dataType:"json"
+					, success:function(data) {
+						$("#areaList").html("");
+						
+						let items = data.response.body.items.item;
+						for(let i = 0; i < items.length; i++) {
+							let code = items[i].code;
+							let name = items[i].name;
+							let html = "<tr class='country-name' style='cursor:pointer' data-area='" + areaCode + "'data-id='" + code + "' data-name='" + name + "'><td>" + name + "</td></tr>";
+							$("#areaList").append(html);
+						}
+					}
+					,error:function() {
+						alert("구 조회 에러");
+					}
+				});
+			});
+			
+			// 군구 를 눌렀을때 그에 맞는 관광지 표시
+			$("#areaList").on("click", ".country-name", function() {
+				let countryCode = $(this).data("id");
+				let countryName = $(this).data("name");
+				let areaCode = $(this).data("area");
+				$.ajax({
+					type:"get"
+					, url:"/destination/districtList"
+					, data:{"areaCode":areaCode, "sigunguCode":countryCode}
+					, dataType:"json"
+					, success:function(data) {
+						// 목록을 비워줍니다.
+						$("#areaList").html("");
+						$("#tableTitle").html("");
+						let tableTitle = "<th colspan='2'><h2>" + countryName + " 관광지 목록</h2></th><th></th>"
+						$("#tableTitle").append(tableTitle);
+						
+						let items = data.response.body.items.item;
+						for(let i = 0; i < items.length; i++) {
+							let code = items[i].contentid;
+							let name = items[i].title;
+							let address = items[i].addr1;
+							
+							let html = "<tr class='district-name' style='cursor:pointer' data-id='" + code + "'><td>" + name + "</td><td>" + address + "</td></tr>";
+							$("#areaList").append(html);
+						}
+					}
+					, error:function() {
+						alert("구 목록 조회 에러");
+					}
+				});
+			});
+			
+			// 관광지를 클릭했을 때 상세 페이지로 이동
+			$("#areaList").on("click", ".district-name", function() {
+				let contentId = $(this).data("id");
+				location.href = "/destination/detail/view?contentid=" + contentId;
+			});
+		});
+	</script>
 </body>
 </html>
