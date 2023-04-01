@@ -155,7 +155,30 @@ public class DestinationBO {
 		String serviceKey = URLEncoder.encode(key,"UTF-8");
 		
 		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
-				+ "&areaCode=" + areaCode + "&sigunguCode=" + sigunguCode + "&arrange=A&contentTypeId=12&arrange=A&numOfRows=300";
+				+ "&areaCode=" + areaCode + "&sigunguCode=" + sigunguCode + "&arrange=A&contentTypeId=12&numOfRows=300";
+		
+		URI uri = new URI(requestUrl);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		String response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class).getBody();
+		
+		return response;
+	}
+	
+	// 내 주변 검색
+	public String selectMyLocationList(double mapX, double mapY, int radius) throws IOException, URISyntaxException {
+		String apiList = "/locationBasedList1";
+		
+		String serviceKey = URLEncoder.encode(key,"UTF-8");
+		
+		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
+				+ "&mapX=" + mapX + "&mapY=" + mapY + "&radius=" + radius + "&contentTypeId=12";
 		
 		URI uri = new URI(requestUrl);
 		

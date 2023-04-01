@@ -27,7 +27,7 @@
 				 	<h5 id="homepage">홈페이지 : </h5>
 				 	<h5>개요</h5>
 				 	<div id="explanation"></div>
-				 	<a href="/destination/main/view">목록으로</a>
+				 	<a href="#" onClick="history.go(-1)">목록으로</a>
 			 	</div>
 		 	</div>
 		</section>

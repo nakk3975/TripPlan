@@ -63,6 +63,7 @@ public class UserController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
+		session.removeAttribute("userRole");
 		
 		return "redirect:/user/signin/view";
 	}

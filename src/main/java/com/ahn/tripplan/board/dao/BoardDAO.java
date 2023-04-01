@@ -25,4 +25,6 @@ public interface BoardDAO {
 	public int deleteBoard(@Param("id") int id);
 	
 	public int selectboardIdLimit(@Param("userId") int userId);
+	
+	public List<Board> searchBoardList(@Param("text") String text);
 }

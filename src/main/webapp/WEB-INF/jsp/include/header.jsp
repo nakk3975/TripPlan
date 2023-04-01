@@ -11,6 +11,9 @@
 						<li class="nav-item"><a href="/destination/search/view" class="nav-link font-weight-bold">찾아보기</a></li>
 						<li class="nav-item"><a href="/destination/map/view" class="nav-link font-weight-bold">주변지도</a></li>
 						<li class="nav-item"><a href="/schedule/view" class="nav-link font-weight-bold">일정보기</a></li>
+						<c:if test="${userRole eq 0}">
+							<li class="nav-item"><a href="/admin/main/view" class="nav-link font-weight-bold">관리자 페이지</a></li>
+						</c:if>
 					</ul>
 				</nav>
 				<c:if test="${not empty userId}">

@@ -165,4 +165,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`nickname` = #{nickname}
 	</select>
+	
+	<select id="selectUserList" resultType="com.ahn.tripplan.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `nickname`
+			, `email`
+			, `phoneNumber`
+			, `level`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+	</select>
+	
+	<update id="updateLevel" parameterType="int">
+		UPDATE
+			`user`
+		SET
+			`level` = 0
+		WHERE
+			`id` = #{id}
+	</update>
+	
+	<update id="downgradeLevel" parameterType="int">
+		UPDATE
+			`user`
+		SET
+			`level` = 1
+		WHERE
+			`id` = #{id}
+	</update>
+	
+	<select id="selectLevel" parameterType="int"
+	resultType="int">
+		SELECT
+			`level`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</delete>
 </mapper>

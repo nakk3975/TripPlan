@@ -1,5 +1,7 @@
 package com.ahn.tripplan.board.tag.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class TagBO {
 	
 	public int deleteTag(int boardId) {
 		return tagDAO.deleteTag(boardId);
+	}
+	
+	public List<Tag> searchTag(String text) {
+		return tagDAO.selectSearchTag(text);
 	}
 	
 }

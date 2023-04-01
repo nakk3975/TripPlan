@@ -107,4 +107,37 @@ public class BoardBO {
 	public int selectBoardId(int userId) {
 		return boardDAO.selectboardIdLimit(userId);
 	}
+	
+	public List<BoardDetail> selectSearchList(String searchKeyword, String title) {
+		List<Board> boardList = new ArrayList<>();
+		if(title.equals("title")) {
+			boardList = boardDAO.searchBoardList(searchKeyword);
+		} else if(title.equals("tag")) {
+			List<Tag> tagList = tagBO.searchTag(searchKeyword);
+			for(Tag tag:tagList) {
+				Board board = boardDAO.selectBoardDetail(tag.getBoardId());
+				boardList.add(board);
+			}
+		}
+		List<BoardDetail> detailList = new ArrayList<>();
+		
+		for(Board board:boardList) {
+			User user = userBO.getUserById(board.getUserId());
+			BoardDetail detail = new BoardDetail();
+			
+			detail.setId(board.getId());
+			detail.setUserId(board.getUserId());
+			detail.setScheduleId(board.getScheduleId());
+			detail.setNickname(user.getNickname());
+			detail.setTitle(board.getTitle());
+			detail.setBoardContent(board.getBoardContent());
+			detail.setHit(board.getHit());
+			detail.setCreatedAt(board.getCreatedAt());
+			detail.setUpdatedAt(board.getUpdatedAt());
+			
+			detailList.add(detail);
+		}
+		
+		return detailList;
+	}
 }

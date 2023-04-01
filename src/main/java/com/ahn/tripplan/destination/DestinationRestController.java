@@ -50,4 +50,12 @@ public class DestinationRestController {
 		return destinationBO.selectDistrictList(areaCode, sigunguCode);
 	}
 	
+	@GetMapping("/myLocation")
+	public String myLocationList(
+			@RequestParam("mapX") double mapX
+			, @RequestParam("mapY") double mapY
+			, @RequestParam("radius") int radius) throws IOException, URISyntaxException {
+		return destinationBO.selectMyLocationList(mapX, mapY, radius);
+	}
+	
 }

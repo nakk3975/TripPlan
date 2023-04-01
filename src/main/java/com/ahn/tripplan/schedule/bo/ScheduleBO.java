@@ -101,9 +101,7 @@ public class ScheduleBO {
 				detailList.add(detail);
 			}
 		}
-		
-		return detailList;
-		
+		return detailList;		
 	}
 	
 	// 일정 상세 보기

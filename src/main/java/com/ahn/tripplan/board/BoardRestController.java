@@ -1,6 +1,7 @@
 package com.ahn.tripplan.board;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ahn.tripplan.board.bo.BoardBO;
+import com.ahn.tripplan.board.model.BoardDetail;
 
 @RestController
 @RequestMapping("/board")
@@ -75,6 +77,24 @@ public class BoardRestController {
 		}
 		
 		return result;
+	}
+
+	@GetMapping("/search")
+	public Map<String, Object> searchTitleList(
+			@RequestParam("text") String text
+			, @RequestParam("title") String title) {
+
+		List<BoardDetail> board = boardBO.selectSearchList(text, title);
 		
+		Map<String, Object> result = new HashMap<>();
+		 System.out.println(board);
+		if(board != null) {
+			result.put("result", "success");
+			result.put("boards", board);
+
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
 	}
 }

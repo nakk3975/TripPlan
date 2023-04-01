@@ -59,6 +59,46 @@
 			});
 			
 			// 내 주변을 눌렀을 때
+			$("#areaList").on("click", ".my-location", function() {
+			    if (navigator.geolocation) { // 브라우저가 Geolocation API를 지원하는 경우
+			        navigator.geolocation.getCurrentPosition(function(position) { // 사용자의 현재 위치 정보 가져오기
+			            let lat = position.coords.latitude; // 위도
+			            let lon = position.coords.longitude; // 경도
+			            let radius = 2000; // 검색 반경 (2000m)
+			
+			            // Open API 요청
+			            $.ajax({
+			                type: "get"
+			                , url: "/destination/myLocation"
+			                , data:{"mapX":lon, "mapY":lat, "radius":radius}
+			                , dataType: "json"
+			                , success: function(data) {
+			                    $("#areaList").html("");
+			                    let items = data.response.body.items.item;
+			                    for (let i = 0; i < items.length; i++) {
+			                        let code = items[i].contentid;
+			                        let name = items[i].title;
+			                        let address = items[i].addr1;
+			                        let html = "";
+			                        if(name == "") {
+			                        	html = "<tr><td>주변에 관광지가 없습니다.</tr></td>"
+			                        } else {
+			                        	html = "<tr class='district-name' style='cursor:pointer' data-id='" + code + "'><td>" + name + "</td><td>" + address + "</td></tr>";
+			                        }
+			                        $("#areaList").append(html);
+			                    }
+			                }
+			                , error: function() {
+			                    alert("주변 관광지 정보 조회 에러");
+			                }
+			            });
+			        }, function(error) { // 위치 정보를 가져오지 못한 경우
+			            alert("위치 정보를 가져올 수 없습니다.");
+			        });
+			    } else { // 브라우저가 Geolocation API를 지원하지 않는 경우
+			        alert("현재 브라우저에서는 위치 정보를 가져올 수 없습니다.");
+			    }
+			});
 			
 			// 시를 눌렀을 때 군구 표시
 			$("#areaList").on("click", ".area-name", function() {

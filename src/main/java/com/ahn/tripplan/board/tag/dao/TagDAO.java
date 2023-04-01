@@ -1,5 +1,7 @@
 package com.ahn.tripplan.board.tag.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,6 @@ public interface TagDAO {
 	public Tag selectTag(@Param("boardId") int boardId);
 	
 	public int deleteTag(@Param("boardId") int boardId);
+	
+	public List<Tag> selectSearchTag(@Param("text") String text);
 }

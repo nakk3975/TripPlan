@@ -65,4 +65,20 @@ public class UserBO {
 	public User selectInviteUser(String nickname) {
 		return userDAO.selectInviteMember(nickname);
 	}
+	
+	public List<User> selectAllUserList() {
+		return userDAO.selectUserList();
+	}
+	
+	public int updateUserLevel(int userId) {
+		if(userDAO.selectLevel(userId) == 1) {
+			return userDAO.updateLevel(userId);
+		} else {
+			return userDAO.downgradeLevel(userId);
+		}
+	}
+	
+	public int deleteUser(int userId) {
+		return userDAO.deleteUser(userId);
+	}
 }

@@ -87,4 +87,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY `id` DESC
 		LIMIT 1;
 	</select>
+	
+	<select id="searchBoardList" parameterType="map"
+	resultType="com.ahn.tripplan.board.model.Board">
+		SELECT
+			`id`
+			, `userId`
+			, `scheduleId`
+			, `title`
+			, `boardContent`
+			, `hit`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`board`
+		WHERE
+			`title` LIKE CONCAT('%',#{text},'%') 
+			OR `boardContent` LIKE CONCAT('%',#{text},'%')
+	</select>
 </mapper>

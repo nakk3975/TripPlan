@@ -42,4 +42,14 @@ public interface UserDAO {
 	public List<User> selectUser(@Param("userId") int userId);
 	
 	public User selectInviteMember(@Param("nickname") String nickname);
+	
+	public List<User> selectUserList();
+	
+	public int updateLevel(@Param("id") int id);
+	
+	public int downgradeLevel(@Param("id") int id);
+	
+	public int selectLevel(@Param("id") int id);
+	
+	public int deleteUser(@Param("id") int id);
 }

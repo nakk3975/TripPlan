@@ -39,4 +39,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`boardId` = #{boardId}
 	</delete>
+	
+	<select id="selectSearchTag" parameterType="map"
+	resultType="com.ahn.tripplan.board.tag.model.Tag">
+		SELECT
+			`id`
+			, `boardId`
+			, `tag`
+			, `createdAt`
+		FROM
+			`tag`
+		WHERE
+			`tag` LIKE CONCAT('%',#{text},'%') 
+	</select>
 </mapper>
