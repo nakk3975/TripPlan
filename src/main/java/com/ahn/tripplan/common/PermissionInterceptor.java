@@ -21,6 +21,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		
 		HttpSession session = request.getSession();
 		Integer userId = (Integer)session.getAttribute("userId");
+		Integer role = (Integer) session.getAttribute("userRole");
 		
 		// /user/signin/view
 		String uri = request.getRequestURI();
@@ -35,6 +36,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
 				response.sendRedirect("/destination/main/view");
 				return false;
 			}
+			if(role != 0) {
+				if(uri.startsWith("/admin")) {
+					response.sendRedirect("/destination/main/view");
+					return false;
+				}
+			}
 		} else {
 			// 로그인이 되어 있지 않은 경우
 			// 메모리스트, 입력화면, 디테일화면으로 접근할 경우
@@ -42,6 +49,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
 				// 로그인 페이지로 이동
 				response.sendRedirect("/user/signin/view");
 				return false;
+			}
+			if(role != 0) {
+				if(uri.startsWith("/admin")) {
+					response.sendRedirect("/user/signin/view");;
+					return false;
+				}
 			}
 		}
 		return true;
