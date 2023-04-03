@@ -29,32 +29,28 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		// 로그인이 되어 있는 경우
 		if(userId != null) {
 			// 회원가입 페이지, 로그인 페이지를 접근할 경우
-			// /user/signup/view, /user/signin/view
-			// /user 로 시작하는 페이지 접근할 경우
+			// user 로 시작하는 페이지 접근할 경우
 			if(uri.startsWith("/user")) {
-				// 메모 리스트 페이지로 이동
+				// 메인 화면으로 이동
 				response.sendRedirect("/destination/main/view");
 				return false;
 			}
+			// 관리자 권한이 없을 경우
 			if(role != 0) {
+				// 관리자 페이지에 접근할 경우
 				if(uri.startsWith("/admin")) {
+					// 메인페이지로 이동
 					response.sendRedirect("/destination/main/view");
 					return false;
 				}
 			}
 		} else {
 			// 로그인이 되어 있지 않은 경우
-			// 메모리스트, 입력화면, 디테일화면으로 접근할 경우
+			// user로 시작하지 않는 페이지에 접근할 경우
 			if(!uri.startsWith("/user")) {
 				// 로그인 페이지로 이동
 				response.sendRedirect("/user/signin/view");
 				return false;
-			}
-			if(role != 0) {
-				if(uri.startsWith("/admin")) {
-					response.sendRedirect("/user/signin/view");;
-					return false;
-				}
 			}
 		}
 		return true;
