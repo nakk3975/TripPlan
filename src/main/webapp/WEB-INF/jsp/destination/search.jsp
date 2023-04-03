@@ -74,17 +74,21 @@
 			                , dataType: "json"
 			                , success: function(data) {
 			                    $("#areaList").html("");
+			                    $("#tableTitle").html("");
 			                    let items = data.response.body.items.item;
 			                    for (let i = 0; i < items.length; i++) {
 			                        let code = items[i].contentid;
 			                        let name = items[i].title;
 			                        let address = items[i].addr1;
 			                        let html = "";
+			                        let title = "";
 			                        if(name == "") {
 			                        	html = "<tr><td>주변에 관광지가 없습니다.</tr></td>"
 			                        } else {
+			                        	title = "<th colspan='2'><h2>지역 선택</h2></th><th></th>";
 			                        	html = "<tr class='district-name' style='cursor:pointer' data-id='" + code + "'><td>" + name + "</td><td>" + address + "</td></tr>";
 			                        }
+			                        $("#tableTitle").html(title);
 			                        $("#areaList").append(html);
 			                    }
 			                }

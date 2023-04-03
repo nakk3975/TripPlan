@@ -154,7 +154,7 @@ public class ScheduleRestController {
 		
 		Map<String, String> result = new HashMap<>();
 		
-		if(count == 1) {
+		if(count == 2) {
 			result.put("result", "success");
 		} else {
 			result.put("result", "fail");

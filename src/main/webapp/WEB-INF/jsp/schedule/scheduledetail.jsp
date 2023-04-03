@@ -86,7 +86,7 @@
 			
 			<c:forEach var="member" items="${members}">
 				<c:choose>
-					<c:when test="${userId eq schedule.userId or member.role eq 1}">
+					<c:when test="${userId eq schedule.userId}">
 						<div class="d-flex justify-content-between">
 							<div>
 								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
@@ -94,6 +94,12 @@
 								<a href="/board/create/view?scheduleId=${schedule.id}" class="btn btn-warning">공유</a>
 							</div>
 							<button type="button" id="deleteBtn" class="btn btn-danger" data-id="${schedule.id}">삭제</button>
+						</div>
+					</c:when>
+					<c:when test="${member.role eq 1}">
+						<div>
+							<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+							<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -254,6 +260,7 @@
 							location.reload();
 						} else {
 							alert("권한 수정에 실패하였습니다.");
+							location.reload();
 						}
 					}
 					, error:function() {
