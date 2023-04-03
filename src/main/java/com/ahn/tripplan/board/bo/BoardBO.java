@@ -100,8 +100,8 @@ public class BoardBO {
 		return boardDAO.updateHitScore(boardId);
 	}
 	
-	public int deleteBoard(int id) {
-		return boardDAO.deleteBoard(id);
+	public int deleteBoard(int id, int userId) {
+		return boardDAO.deleteBoard(id, userId);
 	}
 	
 	public int selectBoardId(int userId) {

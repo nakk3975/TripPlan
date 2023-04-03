@@ -35,7 +35,7 @@ public class DestinationBO {
 		String requestUrl = apiUrl + apiList + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp + "&_type=" + dataType
 				+ "&numOfRows=" + numOfRows
 				+ "&contentTypeId=" + contentTypeId
-				+ "&arrange=Q"; 
+				+ "&arrange=R"; 
 		
 		URI uri = new URI(requestUrl);
 		

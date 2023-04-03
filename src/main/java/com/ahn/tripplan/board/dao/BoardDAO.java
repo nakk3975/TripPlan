@@ -22,7 +22,7 @@ public interface BoardDAO {
 	
 	public int updateHitScore(@Param("boardId") int boardId);
 	
-	public int deleteBoard(@Param("id") int id);
+	public int deleteBoard(@Param("id") int id, @Param("userId") int userId);
 	
 	public int selectboardIdLimit(@Param("userId") int userId);
 	

@@ -32,19 +32,21 @@
 					</thead>
 					<tbody>
 						<c:forEach var="user" items="${users}">
-							<tr>
-								<td>${user.nickname}</td>
-								<c:choose>
-									<c:when test="${user.level eq 0}">
-										<td>관리자</td>
-									</c:when>
-									<c:otherwise>
-										<td>일반회원</td>
-									</c:otherwise>
-								</c:choose>
-								<td><button type="button" class="btn btn-warning update-btn" data-id="${user.id}">권한변경</button></td>
-								<td><button type="button" class="btn btn-danger delete-btn" data-id="${user.id}">삭제</button></td>
-							</tr>
+							<c:if test="${user.id ne userId}">
+								<tr>
+									<td>${user.nickname}</td>
+									<c:choose>
+										<c:when test="${user.level eq 0}">
+											<td>관리자</td>
+										</c:when>
+										<c:otherwise>
+											<td>일반회원</td>
+										</c:otherwise>
+									</c:choose>
+									<td><button type="button" class="btn btn-warning update-btn" data-id="${user.id}">권한변경</button></td>
+									<td><button type="button" class="btn btn-danger delete-btn" data-id="${user.id}">삭제</button></td>
+								</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>

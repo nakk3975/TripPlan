@@ -74,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			`board`
 		WHERE
 			`id` = #{id}
+			AND `userId` = #{userId}
 	</delete>
 	
 	<select id="selectboardIdLimit" parameterType="int"

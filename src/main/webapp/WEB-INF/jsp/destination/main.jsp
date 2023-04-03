@@ -45,7 +45,7 @@
 						if(image == null || image == ""){
 							continue;
 						}	
-						let html = "<div class='destinations py-4'> <img class='destimation-img' width='250px' src='" + image + "' data-contentid=" + contentId + " /> <div class='destination-title' data-contentid=" + contentId + ">" + title + "</div> </div>";
+						let html = "<div class='destinations py-4'> <img class='destimation-img' width='250px' height='150px' src='" + image + "' data-contentid=" + contentId + " /> <div class='destination-title' data-contentid=" + contentId + ">" + title + "</div> </div>";
 						$("#destination-box").append(html);
 					}
 					// 이미지 클릭시 상세 정보 페이지로 이동

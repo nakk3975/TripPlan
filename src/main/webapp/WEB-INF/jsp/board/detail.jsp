@@ -30,7 +30,7 @@
 				<span class="d-flex justify-content-end">작성자 : ${selectBoard.nickname}</span>
 				<div style="white-space: pre-wrap; word-break: break-all;">${selectBoard.boardContent}</div>
 			</div>
-			<div class="text-secondary">${selectBoard.tag}</div>
+			<div class="text-secondary pt-3">${selectBoard.tag}</div>
 			<div class="d-flex justify-content-between">
 				<div>
 					<c:choose>
@@ -41,7 +41,7 @@
 							<i class="bi bi-heart-fill" id="likeCancel" data-id="${selectBoard.id}" style="font-size:20px; color: red;"></i>
 						</c:otherwise>
 					</c:choose>
-				<span class="text-center ml-2"> ${selectBoard.likeCount}개</span>
+				<span class="text-center"> ${selectBoard.likeCount}개</span>
 				</div>
 				<c:if test="${userId eq selectBoard.userId}">
 					<div>
@@ -59,7 +59,12 @@
 				<c:forEach var="comment" items="${selectBoard.comment}">
 					<div class="pt-2" id="commentLine">
 						<h5>${comment.nickname}</h5>
+						<div class="d-flex justify-content-between">
 						${comment.commentContent}
+							<c:if test="${comment.userId eq userId}">
+								<a href="#" id="commentDeleteBtn" class="text-danger" data-id="${comment.id}">삭제</a>
+							</c:if>
+						</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -70,6 +75,29 @@
 	<script>
 		$(document).ready(function() {
 			
+			//댓글 삭제
+			$("#commentDeleteBtn").on("click", function() {
+				let id = $(this).data("id");
+				
+				$.ajax({
+					type:"get"
+					, url:"/board/comment/delete"
+					, data:{"id":id}
+					, success:function(data) {
+						if(data.result == "success"){
+							alert("삭제 완료");
+							location.reload();
+						} else {
+							alert("삭제 실패");
+						}
+					}
+					, error:function() {
+						alert("삭제 에러")
+					}
+				});
+			});
+			
+			// 게시글 삭제
 			$("#boardDeleteBtn").on("click", function() {
 				let id = $(this).data("id");
 				

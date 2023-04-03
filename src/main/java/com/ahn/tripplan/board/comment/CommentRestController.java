@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +27,25 @@ public class CommentRestController {
 			, @RequestParam("commentContent") String commentContent
 			, HttpSession session) {
 		int userId = (int) session.getAttribute("userId");
-		
 		int count = commentBO.addComment(userId, boardId, commentContent);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;
+	}
+	
+	@GetMapping("/delete")
+	public Map<String, String> deleteComment(
+			@RequestParam("id") int id
+			, HttpSession session) {
+		
+		int userId = (int) session.getAttribute("userId");
+		int count = commentBO.deleteComment(id, userId);
 		
 		Map<String, String> result = new HashMap<>();
 		

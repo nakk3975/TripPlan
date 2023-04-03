@@ -39,4 +39,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`boardId` = #{boardId}
 	</select>
+	
+	<delete id="deleteMyComment" parameterType="int">
+		DELETE FROM
+			`comment`
+		WHERE
+			`id` = #{id}
+			AND `userId` = #{userId}
+	</delete>
 </mapper>

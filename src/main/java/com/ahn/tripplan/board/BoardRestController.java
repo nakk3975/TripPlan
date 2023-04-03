@@ -64,9 +64,10 @@ public class BoardRestController {
 	
 	@GetMapping("/delete")
 	public Map<String, String> deleteBoard(
-			@RequestParam("id") int id) {
-		
-		int count = boardBO.deleteBoard(id);
+			@RequestParam("id") int id
+			, HttpSession session) {
+		int userId = (int) session.getAttribute("userId");
+		int count = boardBO.deleteBoard(id, userId);
 		
 		Map<String, String> result = new HashMap<>();
 		
