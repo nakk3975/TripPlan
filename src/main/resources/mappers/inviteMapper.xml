@@ -104,4 +104,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 			`userId` = #{userId}
 	</select>
+	
+	<delete id="deleteInviteSchedule" parameterType="int">
+		DELETE FROM
+			`schedule_member`
+		WHERE
+			`id` = #{id}
+	</delete>
 </mapper>

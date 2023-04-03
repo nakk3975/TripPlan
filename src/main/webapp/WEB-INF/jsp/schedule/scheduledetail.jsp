@@ -97,13 +97,19 @@
 						</div>
 					</c:when>
 					<c:when test="${member.role eq 1}">
-						<div>
-							<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
-							<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+						<div class="d-flex justify-content-between">
+							<div>
+								<button type="button" id="updateBtn" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal">수정</button>
+								<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+							</div>
+							<button type="button" class="btn btn-danger" id="secessionBtn" data-id="${member.id}">나가기</button>
 						</div>
 					</c:when>
 					<c:otherwise>
-						<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+						<div class="d-flex justify-content-between">
+							<button type="button" id="inviteBtn" class="btn btn-success" data-toggle="modal" data-target="#inviteModal">초대</button>
+							<button type="button" class="btn btn-danger" id="secessionBtn" data-id="${member.id}">나가기</button>
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -223,6 +229,28 @@
 	<script src="/static/js/form.js"></script>
 	<script>
 		$(document).ready(function() {
+			
+			// 초대된 일정 나가기
+			$("#secessionBtn").on("click", function() {
+				let id = $(this).data("id");
+				
+				$.ajax({
+					type:"get"
+					, url:"/schedule/invite/secession"
+					, data:{"id":id}
+					, success:function(data) {
+						if(data.result == "success") {
+							alert("초대 된 일정에서 나갔습니다.");
+							location.href = "/schedule/view";
+						} else {
+							alert("나가기 실패");
+						}
+					}
+					, error:function() {
+						alert("나가기 에러");
+					}
+				})
+			});
 			
 			// 가고 싶은 곳 입력
 			$("#insertToDoList").on("click", function() {

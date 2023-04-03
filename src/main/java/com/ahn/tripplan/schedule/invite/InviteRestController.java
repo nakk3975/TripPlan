@@ -95,4 +95,21 @@ public class InviteRestController {
 		
 		return result;
 	}
+	
+	@GetMapping("/secession")
+	public Map<String, String> secessionSchedule(@RequestParam("id") int id) {
+		
+		int count = inviteBO.deleteInviteSchedule(id);
+		
+		Map<String, String> result = new HashMap<>();
+	
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
 }

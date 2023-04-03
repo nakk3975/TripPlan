@@ -32,4 +32,6 @@ public interface InviteDAO {
 	public int updateAuthorityDown(@Param("role") int role);
 	
 	public List<ScheduleMember> selectInviteSchedule(@Param("userId") int userId);
+	
+	public int deleteInviteSchedule(@Param("id") int id);
 }

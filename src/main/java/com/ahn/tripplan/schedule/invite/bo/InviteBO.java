@@ -62,4 +62,9 @@ public class InviteBO {
 	public List<ScheduleMember> selectInviteSchedule(int userId) {
 		return inviteDAO.selectInviteSchedule(userId);
 	}
+	
+	// 초대 된 일정 나가기
+	public int deleteInviteSchedule(int id) {
+		return inviteDAO.deleteInviteSchedule(id);
+	}
 }

@@ -192,6 +192,7 @@ public class ScheduleBO {
 			ScheduleMemberDetail detail = new ScheduleMemberDetail();
 			User user = userBO.getUserById(member.getUserId());
 			
+			detail.setId(member.getId());
 			detail.setNickname(user.getNickname());
 			detail.setRole(member.getRole());
 			detail.setUpdatedAt(member.getUpdatedAt());
