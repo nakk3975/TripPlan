@@ -64,7 +64,7 @@
 			        navigator.geolocation.getCurrentPosition(function(position) { // 사용자의 현재 위치 정보 가져오기
 			            let lat = position.coords.latitude; // 위도
 			            let lon = position.coords.longitude; // 경도
-			            let radius = 2000; // 검색 반경 (2000m)
+			            let radius = 3000; // 검색 반경 (2000m)
 			
 			            // Open API 요청
 			            $.ajax({
@@ -85,7 +85,7 @@
 			                        if(name == "") {
 			                        	html = "<tr><td>주변에 관광지가 없습니다.</tr></td>"
 			                        } else {
-			                        	title = "<th colspan='2'><h2>지역 선택</h2></th><th></th>";
+			                        	title = "<th colspan='2'><h2>내 주변 관광지 목록 (3km 이내)</h2></th><th></th>";
 			                        	html = "<tr class='district-name' style='cursor:pointer' data-id='" + code + "'><td>" + name + "</td><td>" + address + "</td></tr>";
 			                        }
 			                        $("#tableTitle").html(title);
