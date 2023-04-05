@@ -12,7 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e3a6629e36b2cf4296fd30de2823875a&libraries=services,clusterer,drawing"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=49c8561d6ade226603d1a6b19ae78fe0&libraries=services,clusterer,drawing"></script>
+	<!-- local key : e3a6629e36b2cf4296fd30de2823875a -->
 	<link rel="stylesheet" href="/static/css/style.css" type="text/css">
 	
 </head>
@@ -26,7 +27,9 @@
 	</div>
 	<script>
 		$(document).ready(function() {
-				
+			
+			var map = "";
+			
 			if (navigator.geolocation) {
 	            navigator.geolocation.getCurrentPosition(function (position) {
 	                var latitude = position.coords.latitude; // 위도
@@ -49,6 +52,12 @@
 	            });
 	        } else {
 	            alert('위치 정보를 가져올 수 없습니다.');
+	            var container = document.getElementById('map');
+                var options = {
+                    center: new daum.maps.LatLng(33.450701, 126.570667), // 현재 위치를 지도의 중심으로 설정
+                    level: 3
+                };
+                map = new daum.maps.Map(container, options);
 	        }
 			
 			// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
