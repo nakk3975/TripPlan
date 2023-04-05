@@ -28,7 +28,7 @@
 	<script>
 		$(document).ready(function() {
 			
-			var map = "";
+			var map;
 			
 			if (navigator.geolocation) {
 	            navigator.geolocation.getCurrentPosition(function (position) {
