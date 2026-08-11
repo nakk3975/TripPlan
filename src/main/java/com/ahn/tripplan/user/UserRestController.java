@@ -106,12 +106,19 @@ public class UserRestController {
 	
 	@PostMapping("/passwordchange")
 	public Map<String, String> passwordChange(
-			@RequestParam("id") int id
-			, @RequestParam("password") String password){
-		
-		int count = userBO.updatePassword(id, password);
+			@RequestParam("password") String password
+			, HttpServletRequest request){
 		
 		Map<String, String> result = new HashMap<>();
+		HttpSession session = request.getSession(false);
+		
+		if(session == null || !(session.getAttribute("userId") instanceof Integer)) {
+			result.put("result", "fail");
+			return result;
+		}
+		
+		int id = (Integer) session.getAttribute("userId");
+		int count = userBO.updatePassword(id, password);
 		
 		if(count == 1) {
 			result.put("result", "success");
